@@ -19,7 +19,7 @@ body {
 
 /* Header */
 header {
-    background: #667eea;
+    background: #7ec8ff;
     color: white;
     padding: 22px 0;
     text-align: center;
@@ -63,7 +63,7 @@ header .subtitle {
 }
 
 .nav-link.active {
-    background-color: #667eea;
+    background-color: #7ec8ff;
     font-weight: bold;
 }
 
@@ -81,13 +81,13 @@ main section {
 }
 
 h2 {
-    color: #667eea;
+    color: #7ec8ff;
     margin-bottom: 20px;
     font-size: 1.8em;
 }
 
 h3 {
-    color: #764ba2;
+    color: #5aa9e6;
     margin-bottom: 15px;
     font-size: 1.3em;
 }
@@ -131,7 +131,7 @@ p {
 /* Buttons */
 .btn {
     display: inline-block;
-    background-color: #667eea;
+    background-color: #7ec8ff;
     color: white;
     padding: 10px 20px;
     border-radius: 4px;
@@ -143,14 +143,14 @@ p {
 }
 
 .btn:hover {
-    background-color: #764ba2;
+    background-color: #5aa9e6;
 }
 
 /* Status Info */
 .status-info {
-    background-color: #f0f4ff;
+    background-color: #f0f8ff;
     padding: 20px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #7ec8ff;
     border-radius: 4px;
 }
 
@@ -160,7 +160,7 @@ p {
 }
 
 .status-info strong {
-    color: #667eea;
+    color: #7ec8ff;
 }
 
 /* Task List */
@@ -186,7 +186,7 @@ p {
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 4px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #7ec8ff;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -207,7 +207,7 @@ p {
 }
 
 .status-badge {
-    background-color: #667eea;
+    background-color: #7ec8ff;
     color: white;
     padding: 3px 10px;
     border-radius: 12px;
@@ -242,6 +242,81 @@ footer {
 footer p {
     margin-bottom: 0;
     font-size: 0.9em;
+}
+
+/* Team Section */
+.section-intro {
+    max-width: 800px;
+    margin: 0 auto 30px;
+    color: #555;
+    text-align: center;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.team-card {
+    background: #ffffff;
+    border: 1px solid #e9edf5;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.profile-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 180px;
+    background: linear-gradient(135deg, #eaf6ff 0%, #d9ebff 100%);
+    overflow: hidden;
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.team-content {
+    padding: 20px;
+}
+
+.team-content h3 {
+    margin-bottom: 15px;
+    color: #2d3748;
+}
+
+.team-name-label,
+.team-contact-label,
+.team-about-label {
+    font-size: 0.8em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #5a7aa5;
+    margin-bottom: 6px;
+}
+
+.team-name,
+.team-contact,
+.team-about {
+    margin-bottom: 18px;
+    color: #444;
+}
+
+.team-contact {
+    line-height: 1.6;
+}
+
+.team-about {
+    margin-bottom: 0;
+    line-height: 1.7;
 }
 
 /* Responsive */
