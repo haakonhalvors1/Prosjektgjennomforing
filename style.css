@@ -80,6 +80,59 @@ main section {
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
+/* Remove extra boxed appearance for inner sections inside the tidligere-prosjekt page */
+#tidligere-prosjekt .project-media,
+#tidligere-prosjekt .project-details,
+#tidligere-prosjekt .project-overview {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 18px;
+    box-shadow: none;
+}
+
+/* Ensure headings align with the page container */
+#tidligere-prosjekt h2,
+#tidligere-prosjekt h3,
+#tidligere-prosjekt h4,
+#tidligere-prosjekt p {
+    margin-left: 0;
+}
+
+/* Make the entire tidligere-prosjekt section a single column
+   and remove nested box visuals so all text lines up vertically */
+#tidligere-prosjekt {
+    background: transparent;
+    padding: 8px 16px 32px;
+    margin: 0 auto 30px;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#tidligere-prosjekt .project-media {
+    display: block;
+    gap: 0;
+}
+
+#tidligere-prosjekt .video-embed,
+#tidligere-prosjekt .gallery {
+    width: 100%;
+}
+
+/* Slightly reduce h2 size so it lines up visually with other pages */
+#tidligere-prosjekt h2 {
+    font-size: 1.9rem;
+    margin-bottom: 18px;
+}
+
+/* Nudge the main page heading right so it lines up above the article heading */
+#tidligere-prosjekt h2 {
+    margin-left: 36px;
+}
+
+#tidligere-prosjekt h3 {
+    font-size: 1.25rem;
+}
+
 h2 {
     color: #7ec8ff;
     margin-bottom: 20px;
