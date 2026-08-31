@@ -80,6 +80,59 @@ main section {
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
+/* Remove extra boxed appearance for inner sections inside the tidligere-prosjekt page */
+#tidligere-prosjekt .project-media,
+#tidligere-prosjekt .project-details,
+#tidligere-prosjekt .project-overview {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 18px;
+    box-shadow: none;
+}
+
+/* Ensure headings align with the page container */
+#tidligere-prosjekt h2,
+#tidligere-prosjekt h3,
+#tidligere-prosjekt h4,
+#tidligere-prosjekt p {
+    margin-left: 0;
+}
+
+/* Make the entire tidligere-prosjekt section a single column
+   and remove nested box visuals so all text lines up vertically */
+#tidligere-prosjekt {
+    background: transparent;
+    padding: 8px 16px 32px;
+    margin: 0 auto 30px;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#tidligere-prosjekt .project-media {
+    display: block;
+    gap: 0;
+}
+
+#tidligere-prosjekt .video-embed,
+#tidligere-prosjekt .gallery {
+    width: 100%;
+}
+
+/* Slightly reduce h2 size so it lines up visually with other pages */
+#tidligere-prosjekt h2 {
+    font-size: 1.9rem;
+    margin-bottom: 18px;
+}
+
+/* Nudge the main page heading right so it lines up above the article heading */
+#tidligere-prosjekt h2 {
+    margin-left: 36px;
+}
+
+#tidligere-prosjekt h3 {
+    font-size: 1.25rem;
+}
+
 h2 {
     color: #7ec8ff;
     margin-bottom: 20px;
@@ -419,4 +472,115 @@ footer p {
     .team-grid {
         grid-template-columns: repeat(5, minmax(0, 1fr));
     }
+}
+
+/* Project media gallery and video responsiveness */
+.project-media video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 16px;
+    border-radius: 6px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.gallery figure {
+    margin: 0;
+    background: #ffffff;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.gallery img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+}
+
+/* Lightbox overlay */
+.lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.lightbox-overlay img {
+    max-width: 92%;
+    max-height: 92%;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.gallery figcaption {
+    font-size: 0.92rem;
+    color: #555;
+    margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+    .gallery img {
+        height: 140px;
+    }
+}
+
+/* Project page tidy-up: section spacing, blue h4 headings, captions */
+.project-overview,
+.project-media,
+.project-details {
+    max-width: 980px;
+    margin: 0 auto 24px;
+    padding: 14px 18px;
+}
+
+.project-media .video-embed {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Make the smaller section headings more prominent and match the site's blue */
+.project-media h4,
+.project-details h4 {
+    color: #7ec8ff;
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.project-overview p,
+.project-details p {
+    max-width: 920px;
+    color: #444;
+}
+
+.gallery figcaption {
+    color: #345;
+    font-weight: 600;
+    margin-top: 8px;
 }
