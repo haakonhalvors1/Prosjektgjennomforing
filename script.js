@@ -21,3 +21,44 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeDates();
     }
 });
+
+// Simple gallery lightbox for images with class 'gallery-item'
+function initGalleryLightbox() {
+    const images = document.querySelectorAll('.gallery-item');
+    if (!images.length) return;
+
+    // create overlay
+    let overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+    overlay.style.display = 'none';
+    overlay.innerHTML = '<img alt="" /><button class="lightbox-close" aria-label="Lukk">×</button>';
+    document.body.appendChild(overlay);
+
+    const overlayImg = overlay.querySelector('img');
+    const closeBtn = overlay.querySelector('.lightbox-close');
+
+    images.forEach(img => {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', function() {
+            overlayImg.src = this.src;
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    function closeLightbox() {
+        overlay.style.display = 'none';
+        overlayImg.src = '';
+        document.body.style.overflow = '';
+    }
+
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay || e.target === closeBtn) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLightbox();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initGalleryLightbox);
