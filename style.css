@@ -495,3 +495,39 @@ footer p {
         height: 140px;
     }
 }
+
+/* Project page tidy-up: section spacing, blue h4 headings, captions */
+.project-overview,
+.project-media,
+.project-details {
+    max-width: 980px;
+    margin: 0 auto 24px;
+    padding: 14px 18px;
+}
+
+.project-media .video-embed {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Make the smaller section headings more prominent and match the site's blue */
+.project-media h4,
+.project-details h4 {
+    color: #7ec8ff;
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.project-overview p,
+.project-details p {
+    max-width: 920px;
+    color: #444;
+}
+
+.gallery figcaption {
+    color: #345;
+    font-weight: 600;
+    margin-top: 8px;
+}
