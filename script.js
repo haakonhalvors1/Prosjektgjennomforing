@@ -21,24 +21,55 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeDates();
     }
 
-    initTeamAboutExpanders();
+    initProfileModal();
 });
 
-function initTeamAboutExpanders() {
-    const buttons = document.querySelectorAll('.read-more-btn');
+function initProfileModal() {
+    const modal = document.getElementById('profileModal');
+    if (!modal) return;
 
-    buttons.forEach(button => {
-        const wrapper = button.previousElementSibling;
+    const image = document.getElementById('profileModalImage');
+    const title = document.getElementById('profileModalTitle');
+    const role = document.getElementById('profileModalRole');
+    const bio = document.getElementById('profileModalBio');
+    const email = document.getElementById('profileModalEmail');
+    const phone = document.getElementById('profileModalPhone');
+    const closeButton = modal.querySelector('.profile-modal__close');
+    const backdrop = modal.querySelector('[data-close-modal="true"]');
 
-        if (!wrapper || !wrapper.classList.contains('team-about-wrapper')) {
-            return;
-        }
+    const openModal = (card) => {
+        image.src = card.dataset.image;
+        image.alt = card.dataset.name;
+        title.textContent = card.dataset.name;
+        role.textContent = card.dataset.role;
+        bio.textContent = card.dataset.bio;
+        email.textContent = 'E-post: ' + card.dataset.email;
+        phone.textContent = 'Telefon: ' + card.dataset.phone;
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    };
 
+    const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+
+    document.querySelectorAll('.team-card .read-more-btn').forEach(button => {
         button.addEventListener('click', () => {
-            const isExpanded = wrapper.classList.toggle('expanded');
-            button.textContent = isExpanded ? 'Vis mindre' : 'Les mer';
-            button.setAttribute('aria-expanded', String(isExpanded));
+            const card = button.closest('.team-card');
+            openModal(card);
         });
+    });
+
+    closeButton.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+            closeModal();
+        }
     });
 }
 
