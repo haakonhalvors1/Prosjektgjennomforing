@@ -20,7 +20,27 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('start-date')) {
         initializeDates();
     }
+
+    initTeamAboutExpanders();
 });
+
+function initTeamAboutExpanders() {
+    const buttons = document.querySelectorAll('.read-more-btn');
+
+    buttons.forEach(button => {
+        const wrapper = button.previousElementSibling;
+
+        if (!wrapper || !wrapper.classList.contains('team-about-wrapper')) {
+            return;
+        }
+
+        button.addEventListener('click', () => {
+            const isExpanded = wrapper.classList.toggle('expanded');
+            button.textContent = isExpanded ? 'Vis mindre' : 'Les mer';
+            button.setAttribute('aria-expanded', String(isExpanded));
+        });
+    });
+}
 
 // Simple gallery lightbox for images with class 'gallery-item'
 function initGalleryLightbox() {
