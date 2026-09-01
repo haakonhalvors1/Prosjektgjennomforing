@@ -509,8 +509,8 @@ footer p {
 }
 
 .profile-modal__socials .social-btn {
-    width: 52px;
-    height: 52px;
+    width: 58px;
+    height: 58px;
 }
 
 .social-links {
@@ -521,24 +521,37 @@ footer p {
 }
 
 .social-btn {
-    width: 52px;
-    height: 52px;
+    width: 58px;
+    height: 58px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    font-weight: 800;
-    font-size: 1.2rem;
-    color: #fff;
-    background: linear-gradient(135deg, #7ec8ff 0%, #5aa9e6 100%);
-    box-shadow: 0 8px 18px rgba(30, 64, 175, 0.12);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 7px 8px rgba(0, 0, 0, 0.32);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.social-btn:hover,
+.social-btn:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 12px rgba(0, 0, 0, 0.28);
+}
+
+.social-btn svg {
+    width: 55%;
+    height: 55%;
+    fill: #ffffff;
+}
+
+.social-btn--linkedin {
+    background: #0a66c2;
 }
 
 .social-btn--github {
-    background: #f3f4f6;
-    color: #111827;
-    border: 2px solid rgba(17, 24, 39, 0.08);
+    background: #181717;
 }
 
 @media (max-width: 700px) {

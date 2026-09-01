@@ -36,6 +36,29 @@ function initProfileModal() {
     const phone = document.getElementById('profileModalPhone');
     const closeButton = modal.querySelector('.profile-modal__close');
     const backdrop = modal.querySelector('[data-close-modal="true"]');
+    const githubLink = modal.querySelector('.social-btn--github');
+    const linkedinLink = modal.querySelector('.social-btn--linkedin');
+    const profileLinks = {
+        'Dawit Ghirmay Andom': {
+            github: 'https://github.com/dawitandom',
+            linkedin: 'https://www.linkedin.com/in/dawit-andom-787199243/'
+        },
+        'Haakon Elias Halvorsen': {
+            github: 'https://github.com/haakonhalvors1',
+            linkedin: 'https://www.linkedin.com/in/haakon-halvorsen-bb3982354/'
+        },
+        'Marius Khiem Nguyen': {
+            github: 'https://github.com/MariusKhiem',
+            linkedin: 'https://www.linkedin.com/in/marius-nguyen-189544313/'
+        },
+        'Mohamed Liban Osman': {
+            github: 'https://github.com/Mohamedlosman'
+        },
+        'Fanuel Ogbai Habte': {
+            github: 'https://github.com/FanuelHab',
+            linkedin: 'https://www.linkedin.com/in/fanuel-habte/'
+        }
+    };
 
     const openModal = (card) => {
         image.src = card.dataset.image;
@@ -45,6 +68,11 @@ function initProfileModal() {
         bio.textContent = card.dataset.bio;
         email.textContent = 'E-post: ' + card.dataset.email;
         phone.textContent = 'Telefon: ' + card.dataset.phone;
+        const links = profileLinks[card.dataset.name] || {};
+        githubLink.href = links.github || '#';
+        githubLink.hidden = !links.github;
+        linkedinLink.href = links.linkedin || '#';
+        linkedinLink.hidden = !links.linkedin;
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
