@@ -3,30 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prosjektgjennomføring</title>
+    <meta name="description" content="Prosjektarbeid, metoder og digitale løsninger utviklet av Gruppe 5.">
+    <title>Gruppe 5 | Prosjektgjennomføring</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <header>
-        <div class="container">
-            <h1>Prosjektgjennomføring Gruppe 5</h1>
+<body class="home-page">
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html" aria-label="Gruppe 5 – hjem">
+                <span class="brand-mark" aria-hidden="true">G5</span>
+                <span><strong>Gruppe 5</strong><small>Prosjektgjennomføring</small></span>
+            </a>
+            <nav class="site-nav" aria-label="Hovedmeny">
+                <a href="index.html" class="nav-link active" aria-current="page">Hjem</a>
+                <a href="om-oss.html" class="nav-link">Om oss</a>
+                <a href="tidligere-prosjekt.html" class="nav-link">Tidligere prosjekt</a>
+            </nav>
         </div>
     </header>
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="nav-link active">Hjem</a>
-            <a href="om-oss.html" class="nav-link">Om oss</a>
-            <a href="tidligere-prosjekt.html" class="nav-link">Tidligere Prosjekt</a>
-        </div>
-    </nav>
 
     <main>
-        <section class="container">
-            <h2>Velkommen</h2>
-            <p>Dette er hjemmesiden for prosjektgjennomføring i gruppe 5.</p>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <span class="hero-label"><span class="status-dot"></span> Aktivt studentprosjekt</span>
+                    <h1>Prosjektene <span>våre.</span></h1>
+                    <p class="hero-lead">Her dokumenterer vi prosjektarbeidet vårt, metodene vi bruker og løsningene vi utvikler gjennom studiet.</p>
+                    <div class="hero-actions">
+                        <a class="home-btn home-btn-primary" href="om-oss.html">Møt teamet <span aria-hidden="true">→</span></a>
+                        <a class="home-btn home-btn-secondary" href="tidligere-prosjekt.html">Se prosjektet vårt</a>
+                    </div>
+                </div>
+
+                <a class="project-preview" href="tidligere-prosjekt.html" aria-label="Les om Kartverket-prosjektet">
+                    <img src="assets/images/forside.jpeg" alt="Forsiden til gruppens løsning for Kartverket">
+                    <span class="preview-overlay">
+                        <span><small>Utvalgt prosjekt</small><strong>Kartverket</strong></span>
+                        <span class="preview-arrow" aria-hidden="true">↗</span>
+                    </span>
+                </a>
+            </div>
         </section>
+
+        <section class="home-section">
+            <div class="container">
+                <div class="section-heading">
+                    <div><span class="section-kicker">Slik jobber vi</span><h2>En strukturert vei til resultatet</h2></div>
+                    <p>God prosjektgjennomføring handler om mer enn sluttproduktet. Vi legger vekt på tydelige mål, godt samarbeid og læring underveis.</p>
+                </div>
+                <div class="process-grid">
+                    <article class="process-card"><span class="step-number">01</span><h3>Planlegge</h3><p>Vi avklarer behov, fordeler ansvar og setter en tydelig retning for prosjektet.</p></article>
+                    <article class="process-card featured"><span class="step-number">02</span><h3>Skape</h3><p>Vi utvikler løsningen steg for steg, tester idéer og forbedrer arbeidet sammen.</p></article>
+                    <article class="process-card"><span class="step-number">03</span><h3>Levere</h3><p>Vi samler resultatene, dokumenterer prosessen og presenterer en helhetlig løsning.</p></article>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <script src="script.js"></script>
+    <footer class="home-footer">
+        <div class="container"><p>© 2026 Gruppe 5 · Prosjektgjennomføring</p><a href="index.html">Til toppen ↑</a></div>
+    </footer>
 </body>
 </html>

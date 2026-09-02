@@ -3,84 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tidligere Prosjekt | Prosjektgjennomføring</title>
+    <meta name="description" content="Se tidligere prosjekter utviklet av Gruppe 5 innen GIS, kartografi og digitale løsninger.">
+    <title>Tidligere prosjekter | Gruppe 5</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <header>
-        <div class="container">
-            <h1>Prosjektgjennomføring Gruppe 5</h1>
+<body class="project-page">
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html" aria-label="Gruppe 5 – hjem">
+                <span class="brand-mark" aria-hidden="true">G5</span>
+                <span><strong>Gruppe 5</strong><small>Prosjektgjennomføring</small></span>
+            </a>
+            <nav class="site-nav" aria-label="Hovedmeny">
+                <a href="index.html" class="nav-link">Hjem</a>
+                <a href="om-oss.html" class="nav-link">Om oss</a>
+                <a href="tidligere-prosjekt.html" class="nav-link active" aria-current="page">Tidligere prosjekt</a>
+            </nav>
         </div>
     </header>
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="nav-link">Hjem</a>
-            <a href="om-oss.html" class="nav-link">Om oss</a>
-            <a href="tidligere-prosjekt.html" class="nav-link active">Tidligere Prosjekt</a>
-        </div>
-    </nav>
 
     <main>
-        <section id="tidligere-prosjekt" class="container">
-                <h2>Tidligere Prosjekt</h2>
+        <section class="projects-intro">
+            <div class="container">
+                <span class="section-kicker">Arbeid vi er stolte av</span>
+                <h1>Tidligere prosjekter</h1>
+                <p>Her presenterer vi løsninger vi har utviklet, teknologien vi har brukt og erfaringene vi tar med oss videre.</p>
+            </div>
+        </section>
 
-                <article class="project-overview">
-                    <h3>Innrapportering av Luftfarthindringer — IS-200 / IS-201 / IS-202 (Høst 2025)</h3>
-                    <p>I høsten 2025 gjennomførte vi et tverrfaglig prosjekt i emnene <strong>IS-200</strong>, <strong>IS-201</strong> og <strong>IS-202</strong> i samarbeid med <strong>Kartverket</strong> og <strong>Luftambulansen</strong>. 
-                    Prosjektet fokuserte på innrapportering av luftfartshindringer som ikke er registert i kartverket sin kartdata.
-                    Målet med denne applikasjonen var for piloter å lett kunne rapportere
-                    inn nye luftfartshindringer som de finner under flyvning, og senere
-                    gå inn og sende inn til kartverket. </p>
-                    </p>Applikasjonen fungerte slik at en pilot raskt kunne åpne ipaden under flyvning, trykke <strong>Bruk min posisjon</strong> og lagre rapporten. Deretter kan piloten etter oppdraget, logge inn
-                    i applikasjonen og fylle ut resterende informasjon om høyde, type hindring og skrive en beskrivelse. Når han da sender inn
-                    vil en registerfører i Kartverket gå inn og behandle rapporten. Resultatet av behandlingen
-                    vil piloter da få i varslinger.</p>
+        <section class="projects-list">
+            <div class="container">
+                <article class="portfolio-project latest-project">
+                    <div class="project-number">01</div>
+                    <div class="project-copy">
+                        <div class="project-topline"><span class="project-badge">Nyeste prosjekt</span><span>GIS og kartografi</span></div>
+                        <h2>Kriseveier for spesialkjøretøy</h2>
+                        <p class="project-summary">Et interaktivt webkart for planlegging av trygg transport med store spesialkjøretøy. Løsningen visualiserer vegnett og restriksjonsdata fra NVDB, slik at brukeren kan finne veier som passer kjøretøyets dimensjoner.</p>
+
+                        <div class="feature-list">
+                            <div><strong>Dynamiske vegdata</strong><span>Oppdaterte data hentes fra NVDB basert på kartutsnittet.</span></div>
+                            <div><strong>Smarte filtre</strong><span>Veier filtreres etter bredde, høyde og bruksklasse.</span></div>
+                            <div><strong>Risikovurdering</strong><span>Løsningen kan kontrollere skredfare innenfor én kilometer.</span></div>
+                        </div>
+
+                        <div class="tech-tags" aria-label="Teknologier brukt">
+                            <span>MapLibre GL JS</span><span>JavaScript</span><span>Vite</span><span>NVDB API</span><span>GeoJSON</span>
+                        </div>
+                        <div class="project-actions">
+                            <a class="home-btn home-btn-primary" href="https://github.com/haakonhalvors1/Oppgave-1-Webutvikling-GIS-Kartografi" target="_blank" rel="noopener noreferrer">Se prosjektet på GitHub <span aria-hidden="true">↗</span></a>
+                            <a class="text-link" href="https://drive.google.com/file/d/18L1O8_KvjrtxI3nclD9tCHddyP6_yICU/view?usp=sharing" target="_blank" rel="noopener noreferrer">Åpne demo ↗</a>
+                        </div>
+                    </div>
+                    <div class="project-demo">
+                        <div class="demo-frame">
+                            <iframe src="https://drive.google.com/file/d/18L1O8_KvjrtxI3nclD9tCHddyP6_yICU/preview" title="Videodemonstrasjon av Kriseveier for spesialkjøretøy" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <p>Videodemonstrasjon av den ferdige kartløsningen.</p>
+                    </div>
                 </article>
 
-                <section class="project-media">
-                    <h4>Video</h4>
-                        <div class="video-embed">
-                            <iframe
-                                src="https://drive.google.com/file/d/1dspBtY4GGQ_QETpEF2BD9b5O8YMfv9a3/preview"
-                                width="720"
-                                height="405"
-                                frameborder="0"
-                                allow="autoplay; encrypted-media"
-                                allowfullscreen>
-                            </iframe>
+                <article class="portfolio-project">
+                    <div class="project-number">02</div>
+                    <div class="project-copy">
+                        <div class="project-topline"><span>Høst 2025</span><span>IS-200 · IS-201 · IS-202</span></div>
+                        <h2>Innrapportering av luftfarthindringer</h2>
+                        <p class="project-summary">Et tverrfaglig prosjekt i samarbeid med Kartverket og Luftambulansen. Applikasjonen lar piloter registrere luftfarthindringer raskt under flyvning og fullføre rapporten etter oppdraget.</p>
+                        <p>Piloten kan lagre posisjonen direkte, supplere med høyde, hindringstype og beskrivelse, og sende rapporten til behandling hos Kartverket. Status fra behandlingen blir deretter tilgjengelig som varsling.</p>
+                        <div class="tech-tags"><span>Kartdata</span><span>Rapportering</span><span>UX-design</span><span>Tverrfaglig samarbeid</span></div>
+                        <div class="project-actions">
+                            <a class="home-btn home-btn-primary" href="https://github.com/dawitandom/Kartverket_2025" target="_blank" rel="noopener noreferrer">Se prosjektet på GitHub <span aria-hidden="true">↗</span></a>
+                            <a class="text-link" href="https://drive.google.com/file/d/1dspBtY4GGQ_QETpEF2BD9b5O8YMfv9a3/view" target="_blank" rel="noopener noreferrer">Åpne demo ↗</a>
                         </div>
-                        <p>Hvis iframe ikke fungerer, åpne videoen direkte: <a href="https://drive.google.com/file/d/1dspBtY4GGQ_QETpEF2BD9b5O8YMfv9a3/view" target="_blank" rel="noopener">Åpne i Google Drive</a>.</p>
-
-                    <h4>Bilder</h4>
-                    <p>Galleri med bilder fra prosjektet. Klikk et bilde for å åpne i full størrelse.</p>
-                    <div class="gallery">
-                        <figure>
-                            <img class="gallery-item" src="assets/images/forside.jpeg" alt="Feltarbeid og kartlegging" />
-                            <figcaption>Forside</figcaption>
-                        </figure>
-                        <figure>
-                            <img class="gallery-item" src="assets/images/login.jpeg" alt="Login-side (skjermbilde)" />
-                            <figcaption>Pålogging</figcaption>
-                        </figure>
-                        <figure>
-                            <img class="gallery-item" src="assets/images/rapport1-jpeg.png" alt="Rapport 1 - kartdata" />
-                            <figcaption>Rapport - kartdata</figcaption>
-                        </figure>
-                        <figure>
-                            <img class="gallery-item" src="assets/images/rapport2-jpeg.png" alt="Rapport 2 - feltundersøkelse" />
-                            <figcaption>Rapport - feltutfyllinf</figcaption>
-                        </figure>
                     </div>
-                </section>
-
-                <section class="project-details">
-                    <h4>Github</h4>
-                    <p><a href="https://github.com/dawitandom/Kartverket_2025" target="_blank" rel="noopener">https://github.com/dawitandom/Kartverket_2025</a></p>
-                </section>
+                    <div class="project-gallery">
+                        <button class="gallery-button" type="button" aria-label="Åpne forsidebildet i full størrelse"><img class="gallery-item" src="assets/images/forside.jpeg" alt="Forsiden til løsningen for rapportering av luftfarthindringer"></button>
+                        <button class="gallery-button" type="button" aria-label="Åpne påloggingsbildet i full størrelse"><img class="gallery-item" src="assets/images/login.jpeg" alt="Påloggingssiden i løsningen"></button>
+                        <button class="gallery-button" type="button" aria-label="Åpne rapportbildet i full størrelse"><img class="gallery-item" src="assets/images/rapport1-jpeg.png" alt="Rapportvisning med kartdata"></button>
+                        <button class="gallery-button" type="button" aria-label="Åpne utfyllingsbildet i full størrelse"><img class="gallery-item" src="assets/images/rapport2-jpeg.png" alt="Utfylling av rapportdetaljer"></button>
+                    </div>
+                </article>
             </div>
         </section>
     </main>
 
+    <footer class="home-footer">
+        <div class="container"><p>© 2026 Gruppe 5 · Prosjektgjennomføring</p><a href="tidligere-prosjekt.html">Til toppen ↑</a></div>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
