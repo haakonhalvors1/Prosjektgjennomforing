@@ -32,8 +32,6 @@ function initProfileModal() {
     const title = document.getElementById('profileModalTitle');
     const role = document.getElementById('profileModalRole');
     const bio = document.getElementById('profileModalBio');
-    const email = document.getElementById('profileModalEmail');
-    const phone = document.getElementById('profileModalPhone');
     const closeButton = modal.querySelector('.profile-modal__close');
     const backdrop = modal.querySelector('[data-close-modal="true"]');
     const githubLink = modal.querySelector('.social-btn--github');
@@ -66,8 +64,6 @@ function initProfileModal() {
         title.textContent = card.dataset.name;
         role.textContent = card.dataset.role;
         bio.textContent = card.dataset.bio;
-        email.textContent = 'E-post: ' + card.dataset.email;
-        phone.textContent = 'Telefon: ' + card.dataset.phone;
         const links = profileLinks[card.dataset.name] || {};
         githubLink.href = links.github || '#';
         githubLink.hidden = !links.github;
