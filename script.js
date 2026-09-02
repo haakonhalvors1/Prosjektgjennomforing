@@ -84,10 +84,15 @@ function initProfileModal() {
         document.body.style.overflow = '';
     };
 
-    document.querySelectorAll('.team-card .read-more-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            const card = button.closest('.team-card');
-            openModal(card);
+    document.querySelectorAll('.team-card').forEach(card => {
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        card.addEventListener('click', () => openModal(card));
+        card.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openModal(card);
+            }
         });
     });
 
