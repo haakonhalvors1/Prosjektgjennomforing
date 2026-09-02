@@ -22,7 +22,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     initProfileModal();
+    initAutoHideHeader();
 });
+
+function initAutoHideHeader() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+
+    const revealZone = 80; // px from top of viewport that always reveals the header
+    let lastScrollY = window.scrollY;
+
+    const showHeader = () => header.classList.remove('site-header--hidden');
+    const hideHeader = () => header.classList.add('site-header--hidden');
+
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY <= revealZone) {
+            showHeader();
+        } else if (currentScrollY > lastScrollY) {
+            hideHeader();
+        } else if (currentScrollY < lastScrollY) {
+            showHeader();
+        }
+
+        lastScrollY = currentScrollY;
+    }, { passive: true });
+
+    window.addEventListener('mousemove', (event) => {
+        if (event.clientY <= revealZone) {
+            showHeader();
+        }
+    });
+}
+
 
 function initProfileModal() {
     const modal = document.getElementById('profileModal');

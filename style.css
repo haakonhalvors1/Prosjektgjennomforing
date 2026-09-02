@@ -378,6 +378,12 @@ footer p {
     background: #fff;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
     text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.practice-card:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .practice-logo {
@@ -821,7 +827,8 @@ footer p {
 /* Professional homepage */
 .home-page { --navy:#10283f; --blue:#2378b8; --sky:#eaf5fc; --ink:#172534; --muted:#5f6d7a; background:#f7fafc; color:var(--ink); }
 .home-page .container { max-width:1180px; padding-left:24px; padding-right:24px; }
-.site-header { background:rgba(255,255,255,.96); color:var(--ink); padding:0; position:sticky; top:0; z-index:100; border-bottom:1px solid #e5edf3; backdrop-filter:blur(14px); text-align:left; }
+.site-header { background:rgba(255,255,255,.96); color:var(--ink); padding:0; position:fixed; top:0; left:0; right:0; z-index:100; border-bottom:1px solid #e5edf3; backdrop-filter:blur(14px); text-align:left; transform:translateY(0); transition:transform .3s ease; }
+.site-header.site-header--hidden { transform:translateY(-100%); }
 .header-inner { min-height:82px; display:flex; align-items:center; justify-content:space-between; gap:32px; }
 .brand { display:inline-flex; align-items:center; gap:12px; color:var(--ink); text-decoration:none; }
 .brand-mark { width:43px; height:43px; display:grid; place-items:center; border-radius:12px; background:var(--navy); color:white; font-weight:800; letter-spacing:-.03em; }
@@ -832,7 +839,7 @@ footer p {
 .site-nav .nav-link { color:#425466; padding:10px 15px; border-radius:9px; font-size:.94rem; font-weight:600; }
 .site-nav .nav-link:hover { background:var(--sky); color:var(--blue); }
 .site-nav .nav-link.active { background:var(--navy); color:white; }
-.home-page main { padding:0; }
+.home-page main { padding:0; padding-top:82px; }
 .home-page main section { box-shadow:none; border-radius:0; margin:0; }
 .hero { padding:88px 0 76px; background:radial-gradient(circle at 85% 10%,rgba(92,185,235,.18),transparent 29%),linear-gradient(145deg,#f9fcfe 0%,#eef7fc 100%); overflow:hidden; }
 .hero-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:64px; align-items:center; }
