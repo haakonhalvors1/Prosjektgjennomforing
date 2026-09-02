@@ -329,11 +329,93 @@ footer p {
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     overflow: visible;
     cursor: pointer;
-    transition: box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .team-card:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.practice-section {
+    max-width: 900px;
+    margin: 56px auto 0;
+    padding-top: 32px;
+    border-top: 1px solid #ddd;
+}
+
+.practice-heading {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.practice-kicker {
+    display: block;
+    margin-bottom: 8px;
+    color: #5a7aa5;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.practice-heading h2 {
+    margin-bottom: 0;
+    color: #1f2937;
+    font-size: 1.7rem;
+}
+
+.practice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.practice-card {
+    padding: 26px 20px 22px;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    text-align: center;
+}
+
+.practice-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 112px;
+    height: 74px;
+    margin: 0 auto 16px;
+    border-radius: 8px;
+    background: #f0f8ff;
+    color: #2d7fc8;
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.practice-logo img {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    object-fit: contain;
+}
+
+.practice-logo--reviver {
+    background: #000;
+}
+
+.practice-card h3 {
+    margin-bottom: 4px;
+    color: #1f2937;
+    font-size: 1.05rem;
+}
+
+.practice-card p {
+    margin-bottom: 0;
+    color: #6b7280;
+    font-size: 0.9rem;
 }
 
 .profile-image {
