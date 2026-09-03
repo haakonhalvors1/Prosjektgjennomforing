@@ -83,7 +83,8 @@ function initProfileModal() {
             linkedin: 'https://www.linkedin.com/in/marius-nguyen-189544313/'
         },
         'Mohamed Liban Osman': {
-            github: 'https://github.com/Mohamedlosman'
+            github: 'https://github.com/Mohamedlosman',
+            linkedin: 'https://www.linkedin.com/in/mohamed-osman-375564428/'
         },
         'Fanuel Ogbai Habte': {
             github: 'https://github.com/FanuelHab',
