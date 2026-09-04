@@ -47,7 +47,8 @@ body {
     font-family: var(--font-ui);
     line-height: 1.5;
     color: var(--win-ink);
-    background: var(--win-desktop) url("assets/images/windowsBakgrunn.jpg") repeat;
+    background: var(--win-desktop) url("assets/images/windowsBakgrunn.jpg") no-repeat center center fixed;
+    background-size: 100% 100%;
     font-size: 14px;
 }
 
@@ -254,6 +255,10 @@ body {
     padding-top: 46px;
 }
 
+body.home-page {
+    padding-top: 0;
+}
+
 main {
     padding-top: 22px;
 }
@@ -271,7 +276,28 @@ main {
         3px 3px 0 rgba(0,0,0,0.25);
     margin: 0 0 26px;
     min-width: 0;
+    transform-origin: center top;
 }
+
+.win-window--enter {
+    animation: win-window-open 260ms cubic-bezier(0.17, 0.89, 0.32, 1.28);
+}
+
+.win-window--leave {
+    animation: win-window-close 260ms cubic-bezier(0.55, 0, 0.85, 0.4) forwards;
+}
+
+@keyframes win-window-open {
+    from { opacity: 0; transform: scale(0.55) translateY(-18px); }
+    60% { opacity: 1; }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes win-window-close {
+    from { opacity: 1; transform: scale(1) translateY(0); }
+    to { opacity: 0; transform: scale(0.45) translateY(24px); }
+}
+
 
 .win-titlebar {
     display: flex;
@@ -543,6 +569,26 @@ main {
     padding: 4px;
 }
 
+.photo-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 380px;
+    background: var(--win-workspace);
+    box-shadow:
+        inset -1px -1px 0 var(--win-highlight),
+        inset 1px 1px 0 var(--win-shadow-dark),
+        inset -2px -2px 0 var(--win-light),
+        inset 2px 2px 0 var(--win-shadow);
+}
+
+.photo-frame-label {
+    color: var(--win-ink-muted);
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
 .hero-copy {
     display: flex;
     flex-direction: column;
@@ -680,7 +726,7 @@ main {
 /* Two windows placed side by side on wide viewports instead of stacked */
 .desktop-columns {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.7fr 1fr;
     gap: 16px;
     align-items: start;
 }
@@ -734,40 +780,6 @@ main {
     margin: 0;
 }
 
-.home-footer {
-    margin: 0;
-    padding: 6px 0;
-    background: var(--win-face);
-    border-top: 2px solid var(--win-highlight);
-    box-shadow: inset 0 1px 0 var(--win-shadow);
-    position: sticky;
-    bottom: 0;
-}
-
-.home-footer .container {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    align-items: center;
-}
-
-.home-footer p {
-    color: var(--win-ink);
-    font-size: 0.76rem;
-    margin: 0;
-}
-
-.home-footer a {
-    color: var(--win-ink);
-    text-decoration: none;
-    font-size: 0.76rem;
-    padding: 4px 10px;
-    background: var(--win-face);
-    box-shadow:
-        inset 1px 1px 0 var(--win-highlight),
-        inset -1px -1px 0 var(--win-shadow-dark);
-}
-
 @media (max-width: 900px) {
     .desktop-columns { grid-template-columns: 1fr; }
     .hero-grid { grid-template-columns: 1fr; }
@@ -781,7 +793,6 @@ main {
     body { padding-top: 74px; }
     .site-nav { width: 100%; }
     .site-nav .nav-link { flex: 1; text-align: center; padding: 6px 6px; font-size: 0.74rem; }
-    .home-footer .container { flex-direction: column; align-items: flex-start; }
 }
 
 /* ==========================================================================
@@ -792,41 +803,11 @@ main {
     padding-top: 4px;
 }
 
-.team-intro {
-    background: var(--win-workspace);
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow-dark),
-        inset -2px -2px 0 var(--win-light),
-        inset 2px 2px 0 var(--win-shadow);
-    padding: 16px;
-    margin: 0 0 18px;
-    max-width: 100%;
-    text-align: left;
-}
-
-.eyebrow {
-    display: none;
-}
-
-.team-intro h2 {
-    margin-bottom: 10px;
-}
-
-.team-intro-text {
-    max-width: 100%;
-    color: var(--win-ink-muted);
-    font-size: 0.9rem;
-    line-height: 1.65;
-    margin: 0;
-}
-
-/* Team grid presented as explorer icon view */
+/* Team grid presented as explorer icon view, 3 cards over 2 */
 .team-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
     width: 100%;
     margin: 0;
     padding: 0;
@@ -837,9 +818,7 @@ main {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    flex: 1 1 96px;
-    max-width: 108px;
-    padding: 6px 6px 8px;
+    padding: 20px 16px 22px;
     background: var(--win-face);
     box-shadow:
         inset 1px 1px 0 var(--win-highlight),
@@ -870,8 +849,8 @@ main {
 
 .profile-image {
     display: block;
-    width: 48px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 220px;
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border: 1px solid var(--win-shadow-dark);
@@ -889,21 +868,16 @@ main {
 
 .team-name {
     font-family: var(--font-ui);
-    font-size: 0.68rem;
-    line-height: 1.15;
+    font-size: 1.05rem;
+    line-height: 1.2;
     font-weight: bold;
-    margin: 5px 0 1px;
+    margin: 14px 0 2px;
     color: var(--win-ink);
     letter-spacing: 0;
 }
 
 .team-role {
-    display: block;
-    margin: 0 0 4px;
-    font-size: 0.6rem;
-    line-height: 1.15;
-    color: var(--win-ink-muted);
-    font-weight: normal;
+    display: none;
 }
 
 .read-more-btn {
@@ -911,10 +885,10 @@ main {
     background: var(--win-face);
     border: none;
     color: var(--win-ink);
-    font-size: 0.68rem;
+    font-size: 0.82rem;
     font-weight: normal;
-    padding: 2px 8px;
-    margin: 0;
+    padding: 5px 14px;
+    margin: 10px 0 0;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
@@ -946,6 +920,12 @@ main {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 320ms ease;
+}
+
+.profile-modal.is-visible .profile-modal__backdrop {
+    opacity: 1;
 }
 
 .profile-modal__dialog {
@@ -961,6 +941,15 @@ main {
         4px 4px 0 rgba(0,0,0,0.3);
     padding: 0 0 12px;
     z-index: 1;
+    transform: scale(0.6) translateY(24px);
+    opacity: 0;
+    transition: transform 340ms cubic-bezier(0.55, 0, 0.85, 0.4), opacity 260ms ease;
+}
+
+.profile-modal.is-visible .profile-modal__dialog {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    transition: transform 420ms cubic-bezier(0.17, 0.89, 0.32, 1.28), opacity 320ms ease;
 }
 
 .profile-modal__dialog::before {
@@ -1023,13 +1012,6 @@ main {
     font-size: 1.15rem;
     margin: 0 0 4px;
     color: var(--win-ink);
-}
-
-.profile-modal__role {
-    margin: 0 0 10px;
-    font-size: 0.82rem;
-    font-weight: bold;
-    color: var(--win-ink-muted);
 }
 
 .profile-modal__bio {
@@ -1143,7 +1125,7 @@ main {
 
 .practice-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
 }
 
@@ -1197,50 +1179,23 @@ main {
     font-size: 0.64rem;
 }
 
+.practice-student {
+    margin-top: 4px;
+    color: var(--win-ink) !important;
+    font-style: italic;
+}
+
 @media (max-width: 640px) {
-    .team-card { flex: 1 1 45%; max-width: none; }
-    .profile-image { width: 64px; }
-    .team-name { font-size: 0.78rem; }
-    .team-role { font-size: 0.68rem; }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .team-name { font-size: 0.9rem; }
 }
 
 /* ==========================================================================
    Tidligere prosjekt page
    ========================================================================== */
 
-.projects-intro {
-    padding: 4px 4px 14px !important;
-}
-
-.projects-intro h1 {
-    margin: 0 0 8px;
-    font-size: clamp(1.4rem, 3vw, 1.9rem);
-    letter-spacing: 0;
-}
-
-.projects-intro p {
-    max-width: 640px;
-    color: var(--win-ink-muted);
-    font-size: 0.9rem;
-    margin: 0;
-}
-
 .projects-list {
     padding: 4px 0 40px !important;
-}
-
-.portfolio-project {
-    display: block;
-    padding: 0;
-    margin-bottom: 22px;
-}
-
-.project-number {
-    display: none;
-}
-
-.project-copy {
-    padding: 14px;
 }
 
 .project-topline {
@@ -1263,76 +1218,6 @@ main {
     padding: 3px 9px;
 }
 
-.project-copy h2 {
-    font-size: 1.15rem;
-    margin: 0 0 10px;
-}
-
-.project-copy p {
-    color: var(--win-ink-muted);
-    line-height: 1.6;
-}
-
-.project-summary {
-    color: var(--win-ink) !important;
-    font-size: 0.9rem !important;
-    background: var(--win-workspace);
-    padding: 8px 10px;
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow);
-}
-
-/* Feature list rendered like a details/list-view */
-.feature-list {
-    display: grid;
-    gap: 1px;
-    margin: 16px 0;
-    background: var(--win-shadow-dark);
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow-dark);
-}
-
-.feature-list div {
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    gap: 10px;
-    background: var(--win-workspace);
-    padding: 8px 10px;
-}
-
-.feature-list strong {
-    color: var(--win-ink);
-    font-size: 0.78rem;
-}
-
-.feature-list span {
-    color: var(--win-ink-muted);
-    font-size: 0.78rem;
-}
-
-/* Tech tags styled like small system icons/chips */
-.tech-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 16px 0;
-}
-
-.tech-tags span {
-    color: var(--win-ink);
-    background: var(--win-face);
-    border-radius: 0;
-    padding: 4px 9px;
-    font-size: 0.7rem;
-    font-weight: normal;
-    font-family: var(--font-mono);
-    box-shadow:
-        inset 1px 1px 0 var(--win-highlight),
-        inset -1px -1px 0 var(--win-shadow-dark);
-}
-
 .project-actions {
     display: flex;
     flex-wrap: wrap;
@@ -1347,12 +1232,194 @@ main {
     text-decoration: underline;
 }
 
-.project-demo {
-    position: static;
-    padding: 0 14px 14px;
+@media (max-width: 640px) {
+    .project-actions .home-btn { width: 100%; }
 }
 
-.demo-frame {
+/* Project grid rendered as an explorer icon view */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 18px 14px 16px;
+    background: var(--win-face);
+    box-shadow:
+        inset 1px 1px 0 var(--win-highlight),
+        inset -1px -1px 0 var(--win-shadow-dark),
+        inset 2px 2px 0 var(--win-light),
+        inset -2px -2px 0 var(--win-shadow);
+    cursor: pointer;
+}
+
+.project-card:hover {
+    background: var(--win-selection);
+    color: var(--win-selection-text);
+}
+
+.project-card:hover .project-card-tag {
+    color: var(--win-selection-text);
+}
+
+.project-card:active {
+    box-shadow:
+        inset -1px -1px 0 var(--win-highlight),
+        inset 1px 1px 0 var(--win-shadow-dark),
+        inset -2px -2px 0 var(--win-light),
+        inset 2px 2px 0 var(--win-shadow);
+}
+
+.project-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 10px;
+}
+
+.project-card-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.project-card-title {
+    font-size: 0.92rem;
+    margin: 0 0 4px;
+}
+
+.project-card-tag {
+    margin: 0;
+    color: var(--win-ink-muted);
+    font-size: 0.72rem;
+}
+
+/* Project popover, styled like the other Win95 property dialogs */
+.project-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.project-modal.is-open {
+    display: flex;
+}
+
+.project-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 320ms ease;
+}
+
+.project-modal.is-visible .project-modal__backdrop {
+    opacity: 1;
+}
+
+.project-modal__dialog {
+    position: relative;
+    width: min(92vw, 680px);
+    max-height: 88vh;
+    overflow-y: auto;
+    background: var(--win-face);
+    border: 1px solid var(--win-shadow-dark);
+    box-shadow:
+        inset 1px 1px 0 var(--win-light),
+        inset -1px -1px 0 var(--win-shadow),
+        4px 4px 0 rgba(0,0,0,0.3);
+    padding: 0 0 14px;
+    z-index: 1;
+    transform: scale(0.6) translateY(24px);
+    opacity: 0;
+    transition: transform 340ms cubic-bezier(0.55, 0, 0.85, 0.4), opacity 260ms ease;
+}
+
+.project-modal.is-visible .project-modal__dialog {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    transition: transform 420ms cubic-bezier(0.17, 0.89, 0.32, 1.28), opacity 320ms ease;
+}
+
+.project-modal__dialog::before {
+    content: "Egenskaper – Prosjekt";
+    display: block;
+    padding: 4px 6px 4px 8px;
+    background: linear-gradient(90deg, var(--win-titlebar-start), var(--win-titlebar-end));
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+.project-modal__close {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    border: none;
+    background: var(--win-face);
+    font-size: 0.85rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--win-ink);
+    width: 18px;
+    height: 16px;
+    box-shadow:
+        inset 1px 1px 0 var(--win-highlight),
+        inset -1px -1px 0 var(--win-shadow-dark);
+}
+
+.project-modal__body {
+    padding: 0 18px;
+    text-align: left;
+}
+
+.project-modal__topline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+    color: var(--win-ink-muted);
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.project-modal__body h4 {
+    font-size: 1.1rem;
+    margin: 0 0 10px;
+}
+
+.project-modal__summary {
+    color: var(--win-ink) !important;
+    font-size: 0.86rem !important;
+    line-height: 1.6;
+    background: var(--win-workspace);
+    padding: 8px 10px;
+    box-shadow:
+        inset -1px -1px 0 var(--win-highlight),
+        inset 1px 1px 0 var(--win-shadow);
+    margin: 0 0 14px;
+}
+
+/* Media area: either a video iframe or an image carousel */
+.project-modal__media {
+    margin-bottom: 8px;
+}
+
+.project-modal__media .demo-frame {
     aspect-ratio: 16 / 10;
     overflow: hidden;
     background: #000;
@@ -1363,172 +1430,74 @@ main {
         inset 2px 2px 0 var(--win-shadow);
 }
 
-.demo-frame iframe {
+.project-modal__media .demo-frame iframe {
     width: 100%;
     height: 100%;
     display: block;
     border: 0;
 }
 
-.project-demo p {
-    color: var(--win-ink-muted);
-    font-size: 0.72rem;
-    margin: 8px 2px 0;
+.project-carousel {
+    position: relative;
 }
 
-.project-gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    padding: 0 14px 14px;
-}
-
-.gallery-button {
-    border: 0;
-    padding: 2px;
-    min-width: 0;
-    background: var(--win-face);
-    cursor: zoom-in;
-    box-shadow:
-        inset 1px 1px 0 var(--win-highlight),
-        inset -1px -1px 0 var(--win-shadow-dark);
-}
-
-.gallery-button:first-child {
-    grid-column: 1 / -1;
-}
-
-.project-gallery img {
-    width: 100%;
-    height: 150px;
-    display: block;
-    object-fit: cover;
-}
-
-.gallery-button:first-child img {
-    height: 220px;
-}
-
-@media (max-width: 640px) {
-    .project-gallery img { height: 115px; }
-    .gallery-button:first-child img { height: 190px; }
-    .project-actions .home-btn { width: 100%; }
-}
-
-/* ==========================================================================
-   Legacy content selectors kept for compatibility (project detail sections)
-   ========================================================================== */
-
-.project-overview,
-.project-media,
-.project-details {
-    max-width: 100%;
-    margin: 0 0 16px;
-    padding: 12px 14px;
-}
-
-.project-media .video-embed {
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: center;
-}
-
-.project-media video {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto 12px;
-}
-
-.project-media h4,
-.project-details h4 {
-    color: var(--win-titlebar-start);
-    font-size: 1rem;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.project-overview p,
-.project-details p {
-    max-width: 100%;
-    color: var(--win-ink-muted);
-}
-
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.gallery figure {
-    margin: 0;
+.project-carousel__viewport {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
     background: var(--win-workspace);
-    padding: 6px;
-    text-align: center;
     box-shadow:
         inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow);
+        inset 1px 1px 0 var(--win-shadow-dark),
+        inset -2px -2px 0 var(--win-light),
+        inset 2px 2px 0 var(--win-shadow);
 }
 
-.gallery img {
+.project-carousel__viewport img {
     width: 100%;
-    height: 160px;
+    height: 100%;
     object-fit: cover;
     display: block;
 }
 
-.gallery figcaption {
-    color: var(--win-ink-muted);
-    font-weight: bold;
-    font-size: 0.78rem;
+.project-carousel__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-top: 6px;
 }
 
-/* Lightbox overlay kept, restyled to match the retro chrome */
-.lightbox-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 32, 0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-
-.lightbox-overlay img {
-    max-width: 90%;
-    max-height: 86%;
-    border: 3px solid var(--win-face);
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
-}
-
-.lightbox-close {
-    position: absolute;
-    top: 18px;
-    right: 22px;
+.project-carousel__btn {
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    padding: 4px 10px;
     background: var(--win-face);
     border: none;
-    color: var(--win-ink);
-    font-size: 1.1rem;
-    line-height: 1;
     cursor: pointer;
-    width: 30px;
-    height: 26px;
     box-shadow:
         inset 1px 1px 0 var(--win-highlight),
         inset -1px -1px 0 var(--win-shadow-dark);
 }
 
-@media (max-width: 600px) {
-    .gallery img { height: 130px; }
+.project-carousel__btn:active {
+    box-shadow:
+        inset -1px -1px 0 var(--win-highlight),
+        inset 1px 1px 0 var(--win-shadow-dark);
+}
+
+.project-carousel__count {
+    color: var(--win-ink-muted);
+    font-size: 0.72rem;
+}
+
+@media (max-width: 640px) {
+    .project-modal__body { padding: 0 12px; }
 }
 
 /* ==========================================================================
    Focus states & scrollbars
    ========================================================================== */
 
-a:focus-visible, button:focus-visible, .gallery-item:focus-visible {
+a:focus-visible, button:focus-visible {
     outline: 2px dotted #000000;
     outline-offset: 2px;
 }

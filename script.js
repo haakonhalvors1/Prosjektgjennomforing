@@ -1,28 +1,9 @@
-// Sett startdato og beregn nåværende uke
-function initializeDates() {
-    const startDate = new Date('2026-08-13');
-    document.getElementById('start-date').textContent = startDate.toLocaleDateString('no-NO');
-
-    const today = new Date();
-    const weeksPassed = Math.floor((today - startDate) / (7 * 24 * 60 * 60 * 1000)) + 1;
-    document.getElementById('current-week').textContent = 'Uke ' + weeksPassed;
-
-    document.getElementById('last-update').textContent = today.toLocaleDateString('no-NO', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-}
-
 // Initialisér ved lasting
 document.addEventListener('DOMContentLoaded', function() {
-    if (document.getElementById('start-date')) {
-        initializeDates();
-    }
-
     initProfileModal();
+    initProjectModal();
     initAutoHideHeader();
+    initWindowTransitions();
 });
 
 function initAutoHideHeader() {
@@ -63,7 +44,6 @@ function initProfileModal() {
 
     const image = document.getElementById('profileModalImage');
     const title = document.getElementById('profileModalTitle');
-    const role = document.getElementById('profileModalRole');
     const bio = document.getElementById('profileModalBio');
     const closeButton = modal.querySelector('.profile-modal__close');
     const backdrop = modal.querySelector('[data-close-modal="true"]');
@@ -96,7 +76,6 @@ function initProfileModal() {
         image.src = card.dataset.image;
         image.alt = card.dataset.name;
         title.textContent = card.dataset.name;
-        role.textContent = card.dataset.role;
         bio.textContent = card.dataset.bio;
         const links = profileLinks[card.dataset.name] || {};
         githubLink.href = links.github || '#';
@@ -106,12 +85,14 @@ function initProfileModal() {
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => modal.classList.add('is-visible'));
     };
 
     const closeModal = () => {
-        modal.classList.remove('is-open');
+        modal.classList.remove('is-visible');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        setTimeout(() => modal.classList.remove('is-open'), 340);
     };
 
     document.querySelectorAll('.team-card').forEach(card => {
@@ -136,43 +117,149 @@ function initProfileModal() {
     });
 }
 
-// Simple gallery lightbox for images with class 'gallery-item'
-function initGalleryLightbox() {
-    const images = document.querySelectorAll('.gallery-item');
-    if (!images.length) return;
+function initProjectModal() {
+    const modal = document.getElementById('projectModal');
+    if (!modal) return;
 
-    // create overlay
-    let overlay = document.createElement('div');
-    overlay.className = 'lightbox-overlay';
-    overlay.style.display = 'none';
-    overlay.innerHTML = '<img alt="" /><button class="lightbox-close" aria-label="Lukk">×</button>';
-    document.body.appendChild(overlay);
+    const badge = document.getElementById('projectModalBadge');
+    const meta = document.getElementById('projectModalMeta');
+    const title = document.getElementById('projectModalTitle');
+    const summary = document.getElementById('projectModalSummary');
+    const media = document.getElementById('projectModalMedia');
+    const githubLink = document.getElementById('projectModalGithub');
+    const demoLink = document.getElementById('projectModalDemo');
+    const closeButton = modal.querySelector('.project-modal__close');
+    const backdrop = modal.querySelector('[data-close-project-modal="true"]');
 
-    const overlayImg = overlay.querySelector('img');
-    const closeBtn = overlay.querySelector('.lightbox-close');
+    let carouselImages = [];
+    let carouselIndex = 0;
 
-    images.forEach(img => {
-        img.style.cursor = 'zoom-in';
-        img.addEventListener('click', function() {
-            overlayImg.src = this.src;
-            overlay.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+    const renderCarouselSlide = () => {
+        const img = media.querySelector('.project-carousel__viewport img');
+        const count = media.querySelector('.project-carousel__count');
+        if (!img || !carouselImages.length) return;
+        img.src = carouselImages[carouselIndex].src;
+        img.alt = carouselImages[carouselIndex].alt || '';
+        count.textContent = `${carouselIndex + 1} / ${carouselImages.length}`;
+    };
+
+    const renderMedia = (card) => {
+        media.innerHTML = '';
+        carouselImages = [];
+
+        if (card.dataset.video) {
+            const frame = document.createElement('div');
+            frame.className = 'demo-frame';
+            frame.innerHTML = `<iframe src="${card.dataset.video}" title="Videodemonstrasjon av ${card.dataset.title}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+            media.appendChild(frame);
+            return;
+        }
+
+        if (card.dataset.images) {
+            carouselImages = JSON.parse(card.dataset.images);
+            carouselIndex = 0;
+
+            const carousel = document.createElement('div');
+            carousel.className = 'project-carousel';
+            carousel.innerHTML = `
+                <div class="project-carousel__viewport"><img src="" alt=""></div>
+                <div class="project-carousel__nav">
+                    <button type="button" class="project-carousel__btn" data-carousel-prev>← Forrige</button>
+                    <span class="project-carousel__count"></span>
+                    <button type="button" class="project-carousel__btn" data-carousel-next>Neste →</button>
+                </div>`;
+            media.appendChild(carousel);
+
+            carousel.querySelector('[data-carousel-prev]').addEventListener('click', () => {
+                carouselIndex = (carouselIndex - 1 + carouselImages.length) % carouselImages.length;
+                renderCarouselSlide();
+            });
+            carousel.querySelector('[data-carousel-next]').addEventListener('click', () => {
+                carouselIndex = (carouselIndex + 1) % carouselImages.length;
+                renderCarouselSlide();
+            });
+
+            renderCarouselSlide();
+        }
+    };
+
+    const openModal = (card) => {
+        badge.textContent = card.dataset.badge || '';
+        meta.textContent = card.dataset.meta || '';
+        title.textContent = card.dataset.title;
+        summary.textContent = card.dataset.summary;
+        renderMedia(card);
+        githubLink.href = card.dataset.github || '#';
+        githubLink.hidden = !card.dataset.github;
+        demoLink.href = card.dataset.demo || '#';
+        demoLink.hidden = !card.dataset.demo;
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => modal.classList.add('is-visible'));
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('is-visible');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        setTimeout(() => modal.classList.remove('is-open'), 340);
+    };
+
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        card.addEventListener('click', () => openModal(card));
+        card.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openModal(card);
+            }
         });
     });
 
-    function closeLightbox() {
-        overlay.style.display = 'none';
-        overlayImg.src = '';
-        document.body.style.overflow = '';
-    }
+    closeButton.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
 
-    overlay.addEventListener('click', function(e) {
-        if (e.target === overlay || e.target === closeBtn) closeLightbox();
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeLightbox();
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+            closeModal();
+        }
     });
 }
 
-document.addEventListener('DOMContentLoaded', initGalleryLightbox);
+// Animate windows opening on load, and closing before navigating to another page
+function initWindowTransitions() {
+    const windows = document.querySelectorAll('.win-window');
+    if (!windows.length) return;
+
+    const stagger = 70;
+    const animDuration = 260;
+
+    windows.forEach((win, i) => {
+        win.style.animationDelay = `${i * stagger}ms`;
+        win.classList.add('win-window--enter');
+        win.addEventListener('animationend', () => {
+            win.classList.remove('win-window--enter');
+            win.style.animationDelay = '';
+        }, { once: true });
+    });
+
+    const closeDuration = animDuration + (windows.length - 1) * stagger;
+
+    document.querySelectorAll('a[href]').forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || !href.endsWith('.html') || link.target === '_blank') return;
+
+        link.addEventListener('click', (event) => {
+            if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault();
+            windows.forEach((win, i) => {
+                win.style.animationDelay = `${i * stagger}ms`;
+                win.classList.add('win-window--leave');
+            });
+            setTimeout(() => { window.location.href = href; }, closeDuration);
+        });
+    });
+}
+
