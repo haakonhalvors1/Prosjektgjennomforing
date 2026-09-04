@@ -50,6 +50,7 @@ body {
     background: var(--win-desktop) url("assets/images/windowsBakgrunn.jpg") no-repeat center center fixed;
     background-size: 100% 100%;
     font-size: 14px;
+    padding-left: 110px;
 }
 
 ::selection {
@@ -134,133 +135,61 @@ main {
 }
 
 /* ==========================================================================
-   Desktop chrome — top "taskbar" header shared across pages
+   Desktop chrome — fixed "desktop icons" navigation shared across pages
    ========================================================================== */
 
-.site-header {
-    background: var(--win-face);
-    color: var(--win-ink);
-    padding: 0;
+.desktop-nav {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 18px;
+    left: 18px;
     z-index: 500;
-    border-bottom: 2px solid var(--win-shadow-dark);
-    box-shadow: inset 0 -1px 0 var(--win-light), 0 2px 0 rgba(0,0,0,0.35);
-    transform: translateY(0);
-    transition: transform 0.2s ease;
-}
-
-.site-header.site-header--hidden {
-    transform: translateY(-100%);
-}
-
-.header-inner {
-    min-height: 44px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    flex-direction: column;
+    gap: 18px;
 }
 
-.brand {
-    display: inline-flex;
+.desktop-icon {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    color: var(--win-ink);
+    width: 74px;
+    padding: 4px 2px;
     text-decoration: none;
-    padding: 4px 10px 4px 6px;
+    text-align: center;
 }
 
-.brand-mark {
-    width: 30px;
-    height: 30px;
-    display: grid;
-    place-items: center;
-    background: var(--win-titlebar-start);
+.desktop-icon__img {
+    width: 38px;
+    height: 38px;
+    image-rendering: pixelated;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.6));
+}
+
+.desktop-icon__label {
+    margin-top: 4px;
+    display: inline-block;
     color: #fff;
+    background: rgba(0,0,0,0.55);
+    font-size: 0.7rem;
+    line-height: 1.25;
+    padding: 1px 4px;
+}
+
+.desktop-icon:hover .desktop-icon__label,
+.desktop-icon:focus-visible .desktop-icon__label {
+    background: var(--win-selection);
+    color: var(--win-selection-text);
+}
+
+.desktop-icon:focus-visible {
+    outline: 1px dotted #fff;
+    outline-offset: 2px;
+}
+
+.desktop-icon.active .desktop-icon__label {
+    background: var(--win-selection);
+    color: var(--win-selection-text);
     font-weight: bold;
-    font-size: 0.8rem;
-    letter-spacing: -0.02em;
-    box-shadow:
-        inset 1px 1px 0 #4a7fd6,
-        inset -1px -1px 0 #00003f;
-    flex-shrink: 0;
-}
-
-.brand strong, .brand small {
-    display: block;
-    line-height: 1.15;
-}
-
-.brand strong {
-    font-size: 0.86rem;
-}
-
-.brand small {
-    color: var(--win-ink-muted);
-    margin-top: 1px;
-    font-size: 0.68rem;
-}
-
-.site-nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-
-.site-nav .nav-link {
-    color: var(--win-ink);
-    padding: 6px 14px;
-    font-size: 0.82rem;
-    font-weight: normal;
-    text-decoration: none;
-    background: var(--win-face);
-    box-shadow:
-        inset 1px 1px 0 var(--win-highlight),
-        inset -1px -1px 0 var(--win-shadow-dark),
-        inset 2px 2px 0 var(--win-light),
-        inset -2px -2px 0 var(--win-shadow);
-}
-
-.site-nav .nav-link:hover {
-    background: var(--win-face);
-}
-
-.site-nav .nav-link:active {
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow-dark),
-        inset -2px -2px 0 var(--win-light),
-        inset 2px 2px 0 var(--win-shadow);
-    padding-top: 7px;
-    padding-left: 15px;
-}
-
-.site-nav .nav-link.active {
-    background: var(--win-face);
-    font-weight: bold;
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow-dark),
-        inset -2px -2px 0 var(--win-light),
-        inset 2px 2px 0 var(--win-shadow);
-}
-
-body {
-    padding-top: 46px;
-}
-
-body.home-page {
-    padding-top: 0;
-}
-
-main {
-    padding-top: 22px;
 }
 
 /* ==========================================================================
@@ -789,10 +718,18 @@ main {
 
 @media (max-width: 640px) {
     .home-page .container { padding-left: 10px; padding-right: 10px; }
-    .header-inner { flex-direction: column; align-items: stretch; gap: 6px; padding: 6px 0; }
-    body { padding-top: 74px; }
-    .site-nav { width: 100%; }
-    .site-nav .nav-link { flex: 1; text-align: center; padding: 6px 6px; font-size: 0.74rem; }
+    body { padding-left: 0; }
+    .desktop-nav {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px 8px 6px;
+    }
+    .desktop-icon { width: 58px; }
+    .desktop-icon__img { width: 30px; height: 30px; }
+    .desktop-icon__label { font-size: 0.62rem; }
 }
 
 /* ==========================================================================
