@@ -36,6 +36,10 @@ function initProfileModal() {
         'Fanuel Ogbai Habte': {
             github: 'https://github.com/FanuelHab',
             linkedin: 'https://www.linkedin.com/in/fanuel-habte/'
+        },
+        'Victor Imanuel Ziadpour': {
+            github: 'https://github.com/VictorImanuel2',
+            linkedin: 'https://www.linkedin.com/in/victor-imanuel-ziadpour-8a7a29345/'
         }
     };
 
