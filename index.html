@@ -1,13 +1,23 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="no" style="background:url('assets/images/windowsBakgrunn.jpg') no-repeat center center fixed;background-size:100% 100%">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Prosjektarbeid, metoder og digitale løsninger utviklet av Gruppe 5.">
     <title>Gruppe 5 | Prosjektgjennomføring</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/images/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="assets/images/favicon-48.png" sizes="48x48">
+    <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
+    <link rel="stylesheet" href="style.css?v=7">
+    <script>(function(){try{if(sessionStorage.getItem('gruppe5-booted')==='1'){document.documentElement.classList.add('no-boot');}}catch(e){}})();</script>
 </head>
 <body class="home-page">
+    <div class="boot-screen" id="bootScreen" role="presentation" aria-hidden="true">
+        <div class="boot-logo"><span></span><span></span><span></span><span></span></div>
+        <p class="boot-title">GRUPPE<span>5</span></p>
+        <div class="boot-bar"></div>
+        <p class="boot-status">Starter GRUPPE5...</p>
+    </div>
     <nav class="desktop-nav" aria-label="Hovedmeny">
         <a href="index.html" class="desktop-icon active" aria-current="page">
             <img class="desktop-icon__img" src="assets/images/Windows_95_FOLDER.png" alt="" aria-hidden="true">
@@ -44,6 +54,7 @@
                             </div>
                         </div>
                         <div class="photo-frame" aria-hidden="true">
+                            <span class="photo-frame-icon"></span>
                             <span class="photo-frame-label">Gruppebilde kommer</span>
                         </div>
                     </div>
@@ -53,6 +64,6 @@
 
         </div>
     </main>
-    <script src="script.js"></script>
+    <script src="script.js?v=7"></script>
 </body>
 </html>

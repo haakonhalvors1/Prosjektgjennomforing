@@ -1,9 +1,60 @@
 // Initialisér ved lasting
 document.addEventListener('DOMContentLoaded', function() {
+    initBootScreen();
     initProfileModal();
     initProjectModal();
     initWindowTransitions();
 });
+
+// Windows 95-style boot screen, shown once per browser session
+function initBootScreen() {
+    const screen = document.getElementById('bootScreen');
+    if (!screen) return;
+
+    let alreadyBooted = false;
+    try {
+        alreadyBooted = sessionStorage.getItem('gruppe5-booted') === '1';
+    } catch (e) {}
+
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (alreadyBooted || reducedMotion) {
+        screen.remove();
+        return;
+    }
+
+    document.body.style.overflow = 'hidden';
+
+    const bar = screen.querySelector('.boot-bar');
+    const status = screen.querySelector('.boot-status');
+    const fillStart = 950;
+    const fillDuration = 1300;
+    const statusMessages = ['Starter GRUPPE5...', 'Laster komponenter...', 'Kontrollerer minne...', 'Klar.'];
+
+    const fill = document.createElement('div');
+    fill.className = 'boot-bar-fill';
+    fill.style.animationDelay = `${fillStart}ms`;
+    fill.style.animationDuration = `${fillDuration}ms`;
+    bar.appendChild(fill);
+
+    const barEndTime = fillStart + fillDuration;
+    if (status) {
+        statusMessages.forEach((message, i) => {
+            setTimeout(() => { status.textContent = message; }, fillStart + i * (fillDuration / statusMessages.length));
+        });
+    }
+
+    const finish = () => {
+        screen.classList.add('is-done');
+        try { sessionStorage.setItem('gruppe5-booted', '1'); } catch (e) {}
+        document.body.style.overflow = '';
+        screen.addEventListener('animationend', () => screen.remove(), { once: true });
+    };
+
+    setTimeout(finish, barEndTime + 550);
+
+    screen.addEventListener('click', finish, { once: true });
+}
 
 function initProfileModal() {
     const modal = document.getElementById('profileModal');
