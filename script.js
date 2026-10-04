@@ -1,3 +1,67 @@
+// Gruppemedlemmer, brukt av deltakerlistene på prosjektkortene (data-members)
+const TEAM_MEMBERS = {
+    haakon: { name: 'Haakon Elias Halvorsen', image: 'assets/images/haakon.jpeg' },
+    marius: { name: 'Marius Khiem Nguyen', image: 'assets/images/marius.jpeg' },
+    mohamed: { name: 'Mohamed Liban Osman', image: 'assets/images/mohamed.jpeg' },
+    dawit: { name: 'Dawit Ghirmay Andom', image: 'assets/images/dawit.jpeg' },
+    fanuel: { name: 'Fanuel Ogbai Habte', image: 'assets/images/profilbilde.jpg' },
+    victor: { name: 'Victor Imanuel Ziadpour', image: 'assets/images/victor.jpg' }
+};
+
+const splitList = (value) => (value || '').split(',').map(item => item.trim()).filter(Boolean);
+
+const createEl = (tag, className, text) => {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text) el.textContent = text;
+    return el;
+};
+
+function renderTagList(list, tags) {
+    list.replaceChildren(...tags.map(tag => createEl('li', 'tag', tag)));
+}
+
+// Bygger én rad i Detaljer-listen fra data-attributtene, så nye prosjekter bare trenger en <article>
+function renderProjectRow(entry) {
+    const { title, badge, short, summary } = entry.dataset;
+    const row = createEl('tr', 'project-row');
+
+    const nameCell = createEl('td');
+    const name = createEl('div', 'project-row__name');
+    const icon = document.createElement('img');
+    icon.src = entry.dataset.icon || 'assets/images/program.svg';
+    icon.alt = '';
+    const text = createEl('div');
+    const open = createEl('button', 'project-row__open', title);
+    open.type = 'button';
+    text.append(open);
+    // Kort beskrivelse i listen; faller tilbake på hele sammendraget
+    if (short || summary) text.append(createEl('span', 'project-row__summary', short || summary));
+    name.append(icon, text);
+    nameCell.append(name);
+
+    const memberCell = createEl('td');
+    const members = splitList(entry.dataset.members).map(key => TEAM_MEMBERS[key]).filter(Boolean);
+    const stack = createEl('ul', 'avatar-stack');
+    stack.setAttribute('aria-label', members.map(m => m.name).join(', '));
+    members.forEach(member => {
+        const item = createEl('li', 'avatar');
+        item.dataset.name = member.name.split(' ')[0];
+        const img = document.createElement('img');
+        img.src = member.image;
+        img.alt = member.name;
+        img.loading = 'lazy';
+        item.append(img);
+        stack.append(item);
+    });
+    memberCell.append(stack);
+
+    const periodCell = createEl('td', 'project-row__period', badge || '');
+
+    row.append(nameCell, memberCell, periodCell);
+    return { row, open };
+}
+
 // Initialisér ved lasting
 document.addEventListener('DOMContentLoaded', function() {
     initBootScreen();
@@ -94,7 +158,10 @@ function initProfileModal() {
         }
     };
 
+    let lastFocused = null;
+
     const openModal = (card) => {
+        lastFocused = card;
         image.src = card.dataset.image;
         image.alt = card.dataset.name;
         title.textContent = card.dataset.name;
@@ -107,7 +174,10 @@ function initProfileModal() {
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
-        requestAnimationFrame(() => modal.classList.add('is-visible'));
+        requestAnimationFrame(() => {
+            modal.classList.add('is-visible');
+            closeButton.focus();
+        });
     };
 
     const closeModal = () => {
@@ -115,6 +185,7 @@ function initProfileModal() {
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         setTimeout(() => modal.classList.remove('is-open'), 340);
+        if (lastFocused) lastFocused.focus();
     };
 
     document.querySelectorAll('.team-card').forEach(card => {
@@ -146,11 +217,18 @@ function initProjectModal() {
     const badge = document.getElementById('projectModalBadge');
     const meta = document.getElementById('projectModalMeta');
     const title = document.getElementById('projectModalTitle');
+    const short = document.getElementById('projectModalShort');
     const summary = document.getElementById('projectModalSummary');
+    const icon = document.getElementById('projectModalIcon');
+    const barIcon = document.getElementById('projectModalBarIcon');
+    const barTitle = document.getElementById('projectModalBarTitle');
     const media = document.getElementById('projectModalMedia');
+    const tagList = document.getElementById('projectModalTags');
+    const memberList = document.getElementById('projectModalMembers');
     const githubLink = document.getElementById('projectModalGithub');
     const demoLink = document.getElementById('projectModalDemo');
     const closeButton = modal.querySelector('.project-modal__close');
+    const okButton = modal.querySelector('.project-modal__ok');
     const backdrop = modal.querySelector('[data-close-project-modal="true"]');
 
     let carouselImages = [];
@@ -205,12 +283,34 @@ function initProjectModal() {
         }
     };
 
-    const openModal = (card) => {
-        badge.textContent = card.dataset.badge || '';
-        meta.textContent = card.dataset.meta || '';
+    let lastFocused = null;
+
+    const openModal = (card, trigger) => {
+        lastFocused = trigger || card;
+        const iconSrc = card.dataset.icon || 'assets/images/program.svg';
+        icon.src = iconSrc;
+        barIcon.src = iconSrc;
+        barTitle.textContent = card.dataset.title;
+        badge.textContent = card.dataset.badge || '–';
+        meta.textContent = card.dataset.meta || '–';
         title.textContent = card.dataset.title;
+        short.textContent = card.dataset.short || '';
+        short.hidden = !card.dataset.short;
         summary.textContent = card.dataset.summary;
         renderMedia(card);
+        media.hidden = !media.children.length;
+        renderTagList(tagList, splitList(card.dataset.tags));
+        memberList.replaceChildren(...splitList(card.dataset.members)
+            .map(key => TEAM_MEMBERS[key])
+            .filter(Boolean)
+            .map(member => {
+                const item = createEl('li', 'member-list__item');
+                const img = document.createElement('img');
+                img.src = member.image;
+                img.alt = '';
+                item.append(img, createEl('span', '', member.name));
+                return item;
+            }));
         githubLink.href = card.dataset.github || '#';
         githubLink.hidden = !card.dataset.github;
         demoLink.href = card.dataset.demo || '#';
@@ -218,29 +318,80 @@ function initProjectModal() {
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
-        requestAnimationFrame(() => modal.classList.add('is-visible'));
+        requestAnimationFrame(() => {
+            modal.classList.add('is-visible');
+            okButton.focus();
+        });
     };
 
     const closeModal = () => {
         modal.classList.remove('is-visible');
         modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
-        setTimeout(() => modal.classList.remove('is-open'), 340);
+        setTimeout(() => {
+            modal.classList.remove('is-open');
+            media.innerHTML = ''; // stopper videoen når vinduet lukkes
+        }, 340);
+        if (lastFocused) lastFocused.focus();
     };
 
-    document.querySelectorAll('.project-card').forEach(card => {
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('role', 'button');
-        card.addEventListener('click', () => openModal(card));
-        card.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                openModal(card);
-            }
-        });
+    const list = document.getElementById('projectList');
+    const filter = document.getElementById('projectFilter');
+    const count = document.getElementById('projectCount');
+    const entries = [...list.querySelectorAll('.project-entry')];
+
+    const table = createEl('table', 'project-table');
+    const head = createEl('thead');
+    const headRow = createEl('tr');
+    ['Navn', 'Deltakere', 'Periode'].forEach(label => {
+        const th = createEl('th', '', label);
+        th.scope = 'col';
+        headRow.append(th);
+    });
+    head.append(headRow);
+    const body = createEl('tbody');
+    table.append(head, body);
+
+    const rows = entries.map(entry => {
+        const { row, open } = renderProjectRow(entry);
+        // Hele raden er klikkbar med mus; knappen i navnet er tastaturmålet
+        row.addEventListener('click', () => openModal(entry, open));
+        body.append(row);
+        return { row, members: splitList(entry.dataset.members) };
     });
 
+    const emptyRow = createEl('tr', 'project-list__empty');
+    const emptyCell = createEl('td', '', 'Ingen prosjekter for denne deltakeren ennå.');
+    emptyCell.colSpan = 3;
+    emptyRow.append(emptyCell);
+    emptyRow.hidden = true;
+    body.append(emptyRow);
+
+    list.replaceChildren(table);
+
+    const applyFilter = () => {
+        const key = filter ? filter.value : '';
+        let visible = 0;
+        rows.forEach(({ row, members }) => {
+            row.hidden = key && !members.includes(key);
+            if (!row.hidden) visible++;
+        });
+        emptyRow.hidden = visible > 0;
+        if (count) count.textContent = `${visible} ${visible === 1 ? 'objekt' : 'objekter'}${key ? ' (filtrert)' : ''}`;
+    };
+
+    if (filter) {
+        Object.entries(TEAM_MEMBERS).forEach(([key, member]) => {
+            const option = createEl('option', '', member.name);
+            option.value = key;
+            filter.append(option);
+        });
+        filter.addEventListener('change', applyFilter);
+    }
+    applyFilter();
+
     closeButton.addEventListener('click', closeModal);
+    okButton.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
 
     document.addEventListener('keydown', (event) => {

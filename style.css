@@ -16,8 +16,9 @@
 }
 
 html {
-    background: url("assets/images/windowsBakgrunn.jpg") no-repeat center center fixed;
-    background-size: 100% 100%;
+    background: var(--win-desktop) url("assets/images/windowsBakgrunn.jpg") no-repeat center center fixed;
+    background-size: cover;
+    scroll-behavior: smooth;
 }
 
 :root {
@@ -52,16 +53,25 @@ html {
     --bevel-1: 1px;
     --bevel-2: 2px;
     --radius: 0px;
+
+    /* Layering scale */
+    --z-nav: 100;
+    --z-modal: 300;
+    --z-skip: 400;
+    --z-boot: 500;
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-fast: 140ms;
 }
 
 body {
     font-family: var(--font-ui);
     line-height: 1.5;
     color: var(--win-ink);
-    background: url("assets/images/windowsBakgrunn.jpg") no-repeat center center fixed;
-    background-size: 100% 100%;
     font-size: 14px;
     padding-left: 110px;
+    -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
@@ -80,37 +90,6 @@ img {
 }
 
 /* ==========================================================================
-   Bevel primitives — the raised/sunken look used everywhere
-   ========================================================================== */
-
-.raised {
-    background: var(--win-face);
-    box-shadow:
-        inset 1px 1px 0 var(--win-highlight),
-        inset -1px -1px 0 var(--win-shadow-dark),
-        inset 2px 2px 0 var(--win-light),
-        inset -2px -2px 0 var(--win-shadow);
-}
-
-.sunken {
-    background: var(--win-face);
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow-dark),
-        inset -2px -2px 0 var(--win-light),
-        inset 2px 2px 0 var(--win-shadow);
-}
-
-.field-sunken {
-    background: var(--win-workspace);
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow),
-        inset -2px -2px 0 var(--win-light),
-        inset 2px 2px 0 var(--win-shadow-dark);
-}
-
-/* ==========================================================================
    Base typography
    ========================================================================== */
 
@@ -119,6 +98,7 @@ h1, h2, h3, h4, h5 {
     font-weight: bold;
     color: var(--win-ink);
     line-height: 1.25;
+    text-wrap: balance;
 }
 
 h2 {
@@ -135,6 +115,7 @@ p {
     margin-bottom: 12px;
     font-size: 0.92rem;
     color: var(--win-ink-muted);
+    text-wrap: pretty;
 }
 
 a {
@@ -145,6 +126,34 @@ main {
     padding: 22px 0 48px;
 }
 
+main:focus {
+    outline: none;
+}
+
+/* Skip link — hidden until focused with the keyboard */
+.skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: var(--z-skip);
+    padding: 6px 12px;
+    background: var(--win-face);
+    color: var(--win-ink);
+    font-size: 0.82rem;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow:
+        inset 1px 1px 0 var(--win-highlight),
+        inset -1px -1px 0 var(--win-shadow-dark),
+        inset 2px 2px 0 var(--win-light),
+        inset -2px -2px 0 var(--win-shadow);
+    transform: translateY(-200%);
+}
+
+.skip-link:focus {
+    transform: none;
+}
+
 /* ==========================================================================
    Desktop chrome — fixed "desktop icons" navigation shared across pages
    ========================================================================== */
@@ -153,7 +162,7 @@ main {
     position: fixed;
     top: 18px;
     left: 18px;
-    z-index: 500;
+    z-index: var(--z-nav);
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -371,57 +380,9 @@ main {
     text-overflow: ellipsis;
 }
 
-.win-toolbar {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 8px;
-    background: var(--win-face);
-    border-bottom: 1px solid var(--win-shadow);
-    box-shadow: inset 0 1px 0 var(--win-highlight);
-    flex-wrap: wrap;
-}
-
-.win-toolbar-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    font-size: 0.76rem;
-    font-family: var(--font-ui);
-    color: var(--win-ink);
-    background: var(--win-face);
-    border: none;
-    cursor: pointer;
-    box-shadow:
-        inset 1px 1px 0 var(--win-highlight),
-        inset -1px -1px 0 var(--win-shadow-dark),
-        inset 2px 2px 0 var(--win-light),
-        inset -2px -2px 0 var(--win-shadow);
-}
-
-.win-toolbar-btn:active {
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow-dark);
-    padding-top: 5px;
-    padding-left: 11px;
-}
-
 .win-body {
     padding: 16px;
     background: var(--win-face);
-}
-
-.win-body--workspace {
-    background: var(--win-workspace);
-    margin: 10px;
-    padding: 16px;
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow-dark),
-        inset -2px -2px 0 var(--win-light),
-        inset 2px 2px 0 var(--win-shadow);
 }
 
 .win-statusbar {
@@ -467,6 +428,14 @@ main {
         inset -2px -2px 0 var(--win-shadow);
 }
 
+.home-btn {
+    transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.home-btn:hover {
+    background: var(--win-light);
+}
+
 .home-btn:active {
     box-shadow:
         inset -1px -1px 0 var(--win-highlight),
@@ -477,16 +446,26 @@ main {
     padding-left: 19px;
 }
 
+/* Default button gets the classic 1px black "default action" frame */
 .home-btn-primary {
     font-weight: bold;
+    outline: 1px solid var(--win-shadow-dark);
+    outline-offset: 0;
+}
+
+.home-btn-primary:focus-visible {
+    outline: 1px solid var(--win-shadow-dark);
+    box-shadow:
+        inset 1px 1px 0 var(--win-highlight),
+        inset -1px -1px 0 var(--win-shadow-dark),
+        inset 2px 2px 0 var(--win-light),
+        inset -2px -2px 0 var(--win-shadow),
+        inset 0 0 0 4px var(--win-face),
+        inset 0 0 0 5px var(--win-shadow-dark);
 }
 
 .home-btn-secondary {
     color: var(--win-ink);
-}
-
-.home-btn-light {
-    background: var(--win-face);
 }
 
 /* ==========================================================================
@@ -572,8 +551,9 @@ main {
 .hero h1 {
     max-width: 560px;
     margin: 4px 0 6px;
-    font-size: clamp(1.5rem, 3vw, 2.1rem);
-    letter-spacing: 0;
+    font-size: clamp(1.9rem, 4.2vw, 2.9rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
     color: var(--win-ink);
 }
 
@@ -582,7 +562,7 @@ main {
 }
 
 .hero-lead {
-    max-width: 540px;
+    max-width: 62ch;
     color: var(--win-ink-muted);
     font-size: 0.92rem;
     line-height: 1.6;
@@ -593,107 +573,7 @@ main {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-}
-
-.project-preview {
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    background: var(--win-face-dark);
-    text-decoration: none;
-}
-
-.project-preview img {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    inset: 0;
-    object-fit: cover;
-    object-position: center top;
-}
-
-.project-preview::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(transparent 55%, rgba(0, 0, 64, 0.82));
-}
-
-.preview-overlay {
-    position: absolute;
-    z-index: 2;
-    left: 12px;
-    right: 12px;
-    bottom: 10px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    color: #fff;
-}
-
-.preview-overlay small, .preview-overlay strong {
-    display: block;
-}
-
-.preview-overlay small {
-    margin-bottom: 2px;
-    opacity: 0.85;
-    text-transform: uppercase;
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
-}
-
-.preview-overlay strong {
-    font-size: 1rem;
-}
-
-.preview-arrow {
-    width: 26px;
-    height: 26px;
-    display: grid;
-    place-items: center;
-    background: var(--win-face);
-    color: var(--win-ink);
-    font-size: 0.9rem;
-    box-shadow:
-        inset 1px 1px 0 var(--win-highlight),
-        inset -1px -1px 0 var(--win-shadow-dark);
-}
-
-.home-section {
-    padding: 6px 0 26px !important;
-}
-
-.section-heading {
-    display: grid;
-    grid-template-columns: 1fr 0.8fr;
-    gap: 30px;
-    align-items: end;
-    margin-bottom: 4px;
-    padding: 0 4px;
-}
-
-.section-kicker {
-    display: inline-block;
-    color: var(--win-titlebar-start);
-    font-size: 0.68rem;
-    font-weight: bold;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-}
-
-.section-heading h2 {
-    font-size: 1.3rem;
-    margin: 0;
-}
-
-.section-heading p {
-    color: var(--win-ink-muted);
-    font-size: 0.86rem;
-    margin: 0;
+    margin-top: 6px;
 }
 
 /* Two windows placed side by side on wide viewports instead of stacked */
@@ -710,54 +590,9 @@ main {
     min-width: 0;
 }
 
-/* Process grid rendered as an explorer icon list */
-.process-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-}
-
-.process-card {
-    padding: 8px 8px 10px;
-    background: var(--win-workspace);
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow-dark),
-        inset -2px -2px 0 var(--win-light),
-        inset 2px 2px 0 var(--win-shadow);
-}
-
-.process-card.featured {
-    background: #f4faff;
-}
-
-.step-number {
-    display: inline-block;
-    color: #fff;
-    background: var(--win-titlebar-start);
-    font-size: 0.64rem;
-    font-weight: bold;
-    letter-spacing: 0.04em;
-    padding: 1px 6px;
-}
-
-.process-card h3 {
-    font-size: 0.84rem;
-    margin: 6px 0 4px;
-}
-
-.process-card p {
-    color: var(--win-ink-muted);
-    font-size: 0.72rem;
-    line-height: 1.4;
-    margin: 0;
-}
-
 @media (max-width: 900px) {
     .desktop-columns { grid-template-columns: 1fr; }
     .hero-grid { grid-template-columns: 1fr; }
-    .section-heading { grid-template-columns: 1fr; gap: 10px; }
-    .process-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -878,11 +713,6 @@ main {
         inset -1px -1px 0 var(--win-shadow-dark);
 }
 
-.read-more-btn:hover,
-.read-more-btn:focus-visible {
-    outline: none;
-}
-
 /* Profile modal restyled as a Windows 95 properties dialog */
 .profile-modal {
     position: fixed;
@@ -890,7 +720,7 @@ main {
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: var(--z-modal);
 }
 
 .profile-modal.is-open {
@@ -934,7 +764,7 @@ main {
 }
 
 .profile-modal__dialog::before {
-    content: "Egenskaper – Teammedlem";
+    content: "Teammedlem";
     display: block;
     padding: 4px 6px 4px 8px;
     background: linear-gradient(90deg, var(--win-titlebar-start), var(--win-titlebar-end));
@@ -1029,13 +859,6 @@ main {
     height: 34px;
 }
 
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 6px;
-}
-
 .social-btn {
     width: 34px;
     height: 34px;
@@ -1051,6 +874,10 @@ main {
         inset -1px -1px 0 var(--win-shadow-dark),
         inset 2px 2px 0 var(--win-light),
         inset -2px -2px 0 var(--win-shadow);
+}
+
+.social-btn:hover {
+    background: var(--win-light);
 }
 
 .social-btn:active {
@@ -1151,13 +978,13 @@ main {
 
 .practice-card h3 {
     margin-bottom: 2px;
-    font-size: 0.74rem;
+    font-size: 0.8rem;
 }
 
 .practice-card p {
     margin-bottom: 0;
     color: var(--win-ink-muted);
-    font-size: 0.64rem;
+    font-size: 0.74rem;
 }
 
 .practice-student {
@@ -1179,76 +1006,32 @@ main {
     padding: 4px 0 40px !important;
 }
 
-.project-topline {
+/* Project list — Explorer "Details" view: one row per project, scales to many */
+.project-toolbar {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px 12px;
     align-items: center;
-    color: var(--win-ink-muted);
-    font-size: 0.68rem;
-    font-weight: bold;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 16px;
     margin-bottom: 10px;
 }
 
-.project-badge {
-    background: var(--win-titlebar-start);
-    color: #fff;
+.project-toolbar label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+}
+
+.win-select {
+    min-width: 170px;
+    padding: 3px 6px;
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    color: var(--win-ink);
+    background: var(--win-workspace);
+    border: none;
     border-radius: 0;
-    padding: 3px 9px;
-}
-
-.project-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-    margin-top: 16px;
-}
-
-.text-link {
-    color: var(--win-link);
-    font-weight: normal;
-    text-decoration: underline;
-}
-
-@media (max-width: 640px) {
-    .project-actions .home-btn { width: 100%; }
-}
-
-/* Project grid rendered as an explorer icon view */
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 14px;
-}
-
-.project-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 18px 14px 16px;
-    background: var(--win-face);
-    box-shadow:
-        inset 1px 1px 0 var(--win-highlight),
-        inset -1px -1px 0 var(--win-shadow-dark),
-        inset 2px 2px 0 var(--win-light),
-        inset -2px -2px 0 var(--win-shadow);
-    cursor: pointer;
-}
-
-.project-card:hover {
-    background: var(--win-selection);
-    color: var(--win-selection-text);
-}
-
-.project-card:hover .project-card-tag {
-    color: var(--win-selection-text);
-}
-
-.project-card:active {
     box-shadow:
         inset -1px -1px 0 var(--win-highlight),
         inset 1px 1px 0 var(--win-shadow-dark),
@@ -1256,30 +1039,257 @@ main {
         inset 2px 2px 0 var(--win-shadow);
 }
 
-.project-card-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 64px;
-    height: 64px;
-    margin-bottom: 10px;
-}
-
-.project-card-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.project-card-title {
-    font-size: 0.92rem;
-    margin: 0 0 4px;
-}
-
-.project-card-tag {
+.project-toolbar__hint {
     margin: 0;
     color: var(--win-ink-muted);
+    font-size: 0.76rem;
+}
+
+.project-list {
+    background: var(--win-workspace);
+    box-shadow:
+        inset -1px -1px 0 var(--win-highlight),
+        inset 1px 1px 0 var(--win-shadow-dark),
+        inset -2px -2px 0 var(--win-light),
+        inset 2px 2px 0 var(--win-shadow);
+    padding: 2px;
+}
+
+.project-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+}
+
+.project-table th {
+    position: sticky;
+    top: 0;
+    padding: 4px 12px;
+    background: var(--win-face);
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+    box-shadow:
+        inset 1px 1px 0 var(--win-highlight),
+        inset -1px -1px 0 var(--win-shadow-dark),
+        inset -2px -2px 0 var(--win-shadow);
+}
+
+.project-table td {
+    padding: 14px 12px;
+    vertical-align: middle;
+    border-bottom: 1px dotted var(--win-face-dark);
+}
+
+.project-row {
+    cursor: pointer;
+}
+
+.project-row:hover td {
+    background: #e8eef8;
+}
+
+/* Selected row in classic navy, with the dotted focus rectangle */
+.project-row:focus-within td {
+    background: var(--win-selection);
+    color: var(--win-selection-text);
+}
+
+.project-row:focus-within .project-row__summary,
+.project-row:focus-within .project-row__period {
+    color: var(--win-selection-text);
+}
+
+.project-row__name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.project-row__name > div {
+    min-width: 0;
+}
+
+/* Name column takes the free width; the others hug their content */
+.project-table th:first-child,
+.project-row td:first-child {
+    width: 100%;
+    max-width: 0;
+}
+
+.project-row__name img {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    image-rendering: pixelated;
+}
+
+.project-row__open {
+    padding: 0;
+    background: none;
+    border: none;
+    color: inherit;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    font-weight: bold;
+    text-align: left;
+    cursor: pointer;
+}
+
+.project-row__open:focus-visible {
+    outline: 1px dotted currentColor;
+    outline-offset: 2px;
+}
+
+.project-row__summary {
+    display: block;
+    margin-top: 3px;
+    overflow: hidden;
+    color: var(--win-ink-muted);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.project-row__period {
+    color: var(--win-ink-muted);
+    white-space: nowrap;
+}
+
+.project-table tr[hidden] {
+    display: none;
+}
+
+.project-list__empty td {
+    padding: 28px 10px;
+    color: var(--win-ink-muted);
+    text-align: center;
+    font-style: italic;
+}
+
+/* Narrow screens: each row becomes a stacked block */
+@media (max-width: 760px) {
+    .project-table thead { display: none; }
+    .project-table, .project-table tbody, .project-table tr:not([hidden]), .project-table td { display: block; }
+    .project-table td { padding: 4px 10px; border: none; }
+    .project-row { padding: 8px 0; border-bottom: 1px dotted var(--win-face-dark); }
+    .project-row:focus-within { background: var(--win-selection); }
+    .project-row td:first-child { max-width: none; width: auto; }
+    .project-row__name { align-items: flex-start; }
+    .project-row__summary {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        white-space: normal;
+    }
+    .project-table td:nth-child(2) { display: inline-block; vertical-align: middle; padding-top: 6px; }
+    .project-table td.project-row__period { display: inline-block; padding-top: 6px; font-size: 0.76rem; }
+}
+
+/* Technology tags as small raised keys */
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+}
+
+.tag {
+    padding: 2px 8px;
+    background: var(--win-face);
+    color: var(--win-ink);
     font-size: 0.72rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    box-shadow:
+        inset 1px 1px 0 var(--win-highlight),
+        inset -1px -1px 0 var(--win-shadow);
+}
+
+/* Overlapping framed portraits */
+.avatar-stack {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.avatar:first-child {
+    margin-left: 0;
+}
+
+.avatar {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    margin-left: -10px;
+    background: var(--win-workspace);
+    border: 1px solid var(--win-shadow-dark);
+    box-shadow: inset 0 0 0 1px var(--win-highlight);
+    transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    padding: 1px;
+    object-fit: cover;
+    display: block;
+}
+
+.avatar:hover {
+    z-index: 1;
+    transform: translateY(-3px);
+}
+
+/* Classic yellow tooltip with the first name */
+.avatar::after {
+    content: attr(data-name);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 6px);
+    padding: 1px 5px;
+    background: #ffffe1;
+    color: var(--win-ink);
+    border: 1px solid var(--win-shadow-dark);
+    font-size: 0.68rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.avatar:hover::after {
+    opacity: 1;
+}
+
+.member-list {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.member-list__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+}
+
+.member-list__item img {
+    width: 28px;
+    height: 28px;
+    padding: 1px;
+    object-fit: cover;
+    background: var(--win-workspace);
+    border: 1px solid var(--win-shadow-dark);
 }
 
 /* Project popover, styled like the other Win95 property dialogs */
@@ -1289,7 +1299,7 @@ main {
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: var(--z-modal);
 }
 
 .project-modal.is-open {
@@ -1310,16 +1320,17 @@ main {
 
 .project-modal__dialog {
     position: relative;
-    width: min(92vw, 680px);
-    max-height: 88vh;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    width: min(94vw, 940px);
+    max-height: 92vh;
+    padding: 3px;
     background: var(--win-face);
     border: 1px solid var(--win-shadow-dark);
     box-shadow:
         inset 1px 1px 0 var(--win-light),
         inset -1px -1px 0 var(--win-shadow),
         4px 4px 0 rgba(0,0,0,0.3);
-    padding: 0 0 14px;
     z-index: 1;
     transform: scale(0.6) translateY(24px);
     opacity: 0;
@@ -1332,74 +1343,193 @@ main {
     transition: transform 420ms cubic-bezier(0.17, 0.89, 0.32, 1.28), opacity 320ms ease;
 }
 
-.project-modal__dialog::before {
-    content: "Egenskaper – Prosjekt";
-    display: block;
-    padding: 4px 6px 4px 8px;
-    background: linear-gradient(90deg, var(--win-titlebar-start), var(--win-titlebar-end));
-    color: #fff;
-    font-size: 0.8rem;
-    font-weight: bold;
-    margin-bottom: 14px;
+/* Properties dialog: titlebar, tabs, tab panel and a right-aligned button row */
+.project-modal__dialog .win-titlebar {
+    flex-shrink: 0;
+    padding: 3px 3px 3px 6px;
+}
+
+.project-modal__bar-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    image-rendering: pixelated;
 }
 
 .project-modal__close {
-    position: absolute;
-    top: 4px;
-    right: 6px;
-    border: none;
-    background: var(--win-face);
-    font-size: 0.85rem;
-    line-height: 1;
-    cursor: pointer;
-    color: var(--win-ink);
+    flex-shrink: 0;
     width: 18px;
     height: 16px;
+    padding: 0;
+    border: none;
+    background: var(--win-face);
+    color: var(--win-ink);
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
     box-shadow:
         inset 1px 1px 0 var(--win-highlight),
-        inset -1px -1px 0 var(--win-shadow-dark);
+        inset -1px -1px 0 var(--win-shadow-dark),
+        inset -2px -2px 0 var(--win-shadow);
 }
 
-.project-modal__body {
-    padding: 0 18px;
-    text-align: left;
+.project-modal__close:active {
+    box-shadow:
+        inset -1px -1px 0 var(--win-highlight),
+        inset 1px 1px 0 var(--win-shadow-dark),
+        inset 2px 2px 0 var(--win-shadow);
 }
 
-.project-modal__topline {
+.project-modal__panel {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin: 8px 8px 0;
+    padding: 16px;
+    background: var(--win-face);
+    box-shadow:
+        inset 1px 1px 0 var(--win-highlight),
+        inset -1px -1px 0 var(--win-shadow-dark),
+        inset 2px 2px 0 var(--win-light),
+        inset -2px -2px 0 var(--win-shadow);
+}
+
+.project-modal__head {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px 12px;
     align-items: center;
-    color: var(--win-ink-muted);
-    font-size: 0.68rem;
-    font-weight: bold;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
+    gap: 14px;
 }
 
-.project-modal__body h4 {
-    font-size: 1.1rem;
-    margin: 0 0 10px;
+.project-modal__icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    image-rendering: pixelated;
+}
+
+.project-modal__head h4 {
+    margin: 0;
+    font-size: 1.35rem;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+}
+
+.project-modal__short {
+    margin: 3px 0 0;
+    font-size: 0.86rem;
+}
+
+/* Wide layout: media and description on the left, facts in a sidebar */
+.project-modal__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: 20px;
+    align-items: start;
+}
+
+.project-modal__heading {
+    margin: 0 0 6px;
+    font-size: 0.9rem;
+}
+
+.project-modal__side {
+    display: grid;
+    gap: 14px;
+}
+
+/* Win95 group box: etched frame with the legend sitting on the top edge */
+.win-group {
+    min-width: 0;
+    margin: 0;
+    padding: 8px 12px 12px;
+    border: 1px solid var(--win-shadow);
+    /* Outer highlight only — an inset line would run straight through the legend */
+    box-shadow: 1px 1px 0 var(--win-highlight);
+}
+
+.win-group legend {
+    margin-left: 6px;
+    padding: 0 5px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* Etched horizontal rule, as used between groups in Win95 dialogs */
+.win-separator {
+    height: 2px;
+    margin: 14px 0;
+    border: none;
+    border-top: 1px solid var(--win-shadow);
+    border-bottom: 1px solid var(--win-highlight);
+}
+
+.project-modal__facts {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 6px 12px;
+    margin: 0;
+    font-size: 0.82rem;
+}
+
+.project-modal__facts dt {
+    color: var(--win-ink-muted);
+}
+
+.project-modal__facts dd {
+    margin: 0;
+    color: var(--win-ink);
+}
+
+.win-group .tag-list {
+    margin: 0;
 }
 
 .project-modal__summary {
-    color: var(--win-ink) !important;
-    font-size: 0.86rem !important;
-    line-height: 1.6;
-    background: var(--win-workspace);
-    padding: 8px 10px;
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow);
-    margin: 0 0 14px;
+    margin: 0;
+    color: var(--win-ink);
+    font-size: 0.86rem;
+    line-height: 1.65;
+}
+
+.project-modal__media {
+    margin: 0 0 16px;
+}
+
+.project-modal__media[hidden] {
+    display: none;
+}
+
+.project-modal__buttons {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 10px 8px 6px;
+}
+
+.project-modal__buttons .home-btn {
+    min-width: 84px;
+    min-height: 26px;
+    padding: 0 12px;
+}
+
+.project-modal__buttons .home-btn[hidden] {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .project-modal__layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+    .project-modal__panel { padding: 12px; }
 }
 
 /* Media area: either a video iframe or an image carousel */
-.project-modal__media {
-    margin-bottom: 8px;
-}
-
 .project-modal__media .demo-frame {
     aspect-ratio: 16 / 10;
     overflow: hidden;
@@ -1459,6 +1589,10 @@ main {
         inset -1px -1px 0 var(--win-shadow-dark);
 }
 
+.project-carousel__btn:hover {
+    background: var(--win-light);
+}
+
 .project-carousel__btn:active {
     box-shadow:
         inset -1px -1px 0 var(--win-highlight),
@@ -1470,10 +1604,6 @@ main {
     font-size: 0.72rem;
 }
 
-@media (max-width: 640px) {
-    .project-modal__body { padding: 0 12px; }
-}
-
 /* ==========================================================================
    Boot screen — Windows 95-style startup, shown once per browser session
    ========================================================================== */
@@ -1481,7 +1611,7 @@ main {
 .boot-screen {
     position: fixed;
     inset: 0;
-    z-index: 9999;
+    z-index: var(--z-boot);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1599,6 +1729,18 @@ main {
 a:focus-visible, button:focus-visible {
     outline: 2px dotted #000000;
     outline-offset: 2px;
+}
+
+/* Win95 draws the focus rectangle inside the control */
+.team-card:focus-visible {
+    outline: 1px dotted currentColor;
+    outline-offset: -6px;
+    background: var(--win-selection);
+    color: var(--win-selection-text);
+}
+
+.team-card:focus-visible .team-name {
+    color: var(--win-selection-text);
 }
 
 ::-webkit-scrollbar {
