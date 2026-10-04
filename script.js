@@ -17,6 +17,23 @@ const createEl = (tag, className, text) => {
     return el;
 };
 
+// Holder Tab-fokus inne i en åpen dialog
+function trapFocus(container, event) {
+    if (event.key !== 'Tab') return;
+    const focusable = [...container.querySelectorAll('a[href], button, iframe, select, input, textarea, [tabindex]:not([tabindex="-1"])')]
+        .filter(el => !el.hidden && !el.disabled && el.getClientRects().length);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && (document.activeElement === first || !container.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+    }
+}
+
 function renderTagList(list, tags) {
     list.replaceChildren(...tags.map(tag => createEl('li', 'tag', tag)));
 }
@@ -77,7 +94,7 @@ function initBootScreen() {
 
     let alreadyBooted = false;
     try {
-        alreadyBooted = sessionStorage.getItem('gruppe5-booted') === '1';
+        alreadyBooted = sessionStorage.getItem('systema-booted') === '1';
     } catch (e) {}
 
     const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -91,9 +108,9 @@ function initBootScreen() {
 
     const bar = screen.querySelector('.boot-bar');
     const status = screen.querySelector('.boot-status');
-    const fillStart = 950;
-    const fillDuration = 1300;
-    const statusMessages = ['Starter GRUPPE5...', 'Laster komponenter...', 'Kontrollerer minne...', 'Klar.'];
+    const fillStart = 450;
+    const fillDuration = 700;
+    const statusMessages = ['Starter SYSTEMA...', 'Laster komponenter...', 'Kontrollerer minne...', 'Klar.'];
 
     const fill = document.createElement('div');
     fill.className = 'boot-bar-fill';
@@ -108,16 +125,22 @@ function initBootScreen() {
         });
     }
 
+    let finished = false;
     const finish = () => {
+        if (finished) return;
+        finished = true;
+        document.removeEventListener('keydown', finish);
         screen.classList.add('is-done');
-        try { sessionStorage.setItem('gruppe5-booted', '1'); } catch (e) {}
+        try { sessionStorage.setItem('systema-booted', '1'); } catch (e) {}
         document.body.style.overflow = '';
         screen.addEventListener('animationend', () => screen.remove(), { once: true });
     };
 
-    setTimeout(finish, barEndTime + 550);
+    setTimeout(finish, barEndTime + 250);
 
-    screen.addEventListener('click', finish, { once: true });
+    // Klikk eller hvilken som helst tast hopper over oppstarten
+    screen.addEventListener('click', finish);
+    document.addEventListener('keydown', finish);
 }
 
 function initProfileModal() {
@@ -161,7 +184,7 @@ function initProfileModal() {
     let lastFocused = null;
 
     const openModal = (card) => {
-        lastFocused = card;
+        lastFocused = card.querySelector('.read-more-btn') || card;
         image.src = card.dataset.image;
         image.alt = card.dataset.name;
         title.textContent = card.dataset.name;
@@ -188,25 +211,20 @@ function initProfileModal() {
         if (lastFocused) lastFocused.focus();
     };
 
+    // Hele kortet er klikkbart med mus; knappen er tastaturmålet (klikket bobler opp til kortet)
     document.querySelectorAll('.team-card').forEach(card => {
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('role', 'button');
+        const button = card.querySelector('.read-more-btn');
+        if (button) button.setAttribute('aria-label', `Se mer om ${card.dataset.name}`);
         card.addEventListener('click', () => openModal(card));
-        card.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                openModal(card);
-            }
-        });
     });
 
     closeButton.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && modal.classList.contains('is-open')) {
-            closeModal();
-        }
+        if (!modal.classList.contains('is-open')) return;
+        if (event.key === 'Escape') closeModal();
+        trapFocus(modal, event);
     });
 }
 
@@ -242,6 +260,12 @@ function initProjectModal() {
         count.textContent = `${carouselIndex + 1} / ${carouselImages.length}`;
     };
 
+    const stepCarousel = (step) => {
+        if (!carouselImages.length) return;
+        carouselIndex = (carouselIndex + step + carouselImages.length) % carouselImages.length;
+        renderCarouselSlide();
+    };
+
     const renderMedia = (card) => {
         media.innerHTML = '';
         carouselImages = [];
@@ -269,14 +293,8 @@ function initProjectModal() {
                 </div>`;
             media.appendChild(carousel);
 
-            carousel.querySelector('[data-carousel-prev]').addEventListener('click', () => {
-                carouselIndex = (carouselIndex - 1 + carouselImages.length) % carouselImages.length;
-                renderCarouselSlide();
-            });
-            carousel.querySelector('[data-carousel-next]').addEventListener('click', () => {
-                carouselIndex = (carouselIndex + 1) % carouselImages.length;
-                renderCarouselSlide();
-            });
+            carousel.querySelector('[data-carousel-prev]').addEventListener('click', () => stepCarousel(-1));
+            carousel.querySelector('[data-carousel-next]').addEventListener('click', () => stepCarousel(1));
 
             renderCarouselSlide();
         }
@@ -324,7 +342,6 @@ function initProjectModal() {
     };
 
     const list = document.getElementById('projectList');
-    const filter = document.getElementById('projectFilter');
     const count = document.getElementById('projectCount');
     // Prosjekter med flest deltakere øverst; like mange beholder rekkefølgen fra HTML-en
     const entries = [...list.querySelectorAll('.project-entry')]
@@ -342,52 +359,28 @@ function initProjectModal() {
     const body = createEl('tbody');
     table.append(head, body);
 
-    const rows = entries.map(entry => {
+    entries.forEach(entry => {
         const { row, open } = renderProjectRow(entry);
         // Hele raden er klikkbar med mus; knappen i navnet er tastaturmålet
         row.addEventListener('click', () => openModal(entry, open));
         body.append(row);
-        return { row, members: splitList(entry.dataset.members) };
     });
-
-    const emptyRow = createEl('tr', 'project-list__empty');
-    const emptyCell = createEl('td', '', 'Ingen prosjekter for denne deltakeren ennå.');
-    emptyCell.colSpan = 3;
-    emptyRow.append(emptyCell);
-    emptyRow.hidden = true;
-    body.append(emptyRow);
 
     list.replaceChildren(table);
 
-    const applyFilter = () => {
-        const key = filter ? filter.value : '';
-        let visible = 0;
-        rows.forEach(({ row, members }) => {
-            row.hidden = key && !members.includes(key);
-            if (!row.hidden) visible++;
-        });
-        emptyRow.hidden = visible > 0;
-        if (count) count.textContent = `${visible} ${visible === 1 ? 'objekt' : 'objekter'}${key ? ' (filtrert)' : ''}`;
-    };
-
-    if (filter) {
-        Object.entries(TEAM_MEMBERS).forEach(([key, member]) => {
-            const option = createEl('option', '', member.name);
-            option.value = key;
-            filter.append(option);
-        });
-        filter.addEventListener('change', applyFilter);
-    }
-    applyFilter();
+    if (count) count.textContent = `${entries.length} ${entries.length === 1 ? 'objekt' : 'objekter'}`;
 
     closeButton.addEventListener('click', closeModal);
     okButton.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && modal.classList.contains('is-open')) {
-            closeModal();
-        }
+        if (!modal.classList.contains('is-open')) return;
+        if (event.key === 'Escape') closeModal();
+        // Piltaster blar i bildekarusellen
+        if (event.key === 'ArrowLeft') stepCarousel(-1);
+        if (event.key === 'ArrowRight') stepCarousel(1);
+        trapFocus(modal, event);
     });
 }
 
@@ -397,7 +390,6 @@ function initWindowTransitions() {
     if (!windows.length) return;
 
     const stagger = 70;
-    const animDuration = 260;
 
     windows.forEach((win, i) => {
         win.style.animationDelay = `${i * stagger}ms`;
@@ -408,7 +400,9 @@ function initWindowTransitions() {
         }, { once: true });
     });
 
-    const closeDuration = animDuration + (windows.length - 1) * stagger;
+    const leaveDuration = 160;
+    const leaveStagger = 40;
+    const closeDuration = leaveDuration + (windows.length - 1) * leaveStagger;
 
     document.querySelectorAll('a[href]').forEach(link => {
         const href = link.getAttribute('href');
@@ -418,11 +412,10 @@ function initWindowTransitions() {
             if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
             event.preventDefault();
             windows.forEach((win, i) => {
-                win.style.animationDelay = `${i * stagger}ms`;
+                win.style.animationDelay = `${i * leaveStagger}ms`;
                 win.classList.add('win-window--leave');
             });
             setTimeout(() => { window.location.href = href; }, closeDuration);
         });
     });
 }
-
