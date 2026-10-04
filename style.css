@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Gruppe 5 — Retro Windows 95/3.1 design system
+   Systema — Retro Windows 95/3.1 design system
    Frontend-only reskin. No layout logic, routes or scripts were changed.
    ========================================================================== */
 
@@ -48,6 +48,7 @@ html {
     /* Typography */
     --font-ui: Tahoma, "MS Sans Serif", "Segoe UI", Geneva, Verdana, sans-serif;
     --font-mono: "Consolas", "Courier New", "Lucida Console", monospace;
+    --font-name: "IBM Plex Sans", var(--font-ui);
 
     /* Metrics */
     --bevel-1: 1px;
@@ -172,7 +173,7 @@ main:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 74px;
+    width: 84px;
     padding: 4px 2px;
     text-decoration: none;
     text-align: center;
@@ -190,7 +191,7 @@ main:focus {
     display: inline-block;
     color: #fff;
     background: rgba(0,0,0,0.55);
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     line-height: 1.25;
     padding: 1px 4px;
 }
@@ -233,7 +234,7 @@ main:focus {
 }
 
 .win-window--leave {
-    animation: win-window-close 260ms cubic-bezier(0.55, 0, 0.85, 0.4) forwards;
+    animation: win-window-close 160ms cubic-bezier(0.55, 0, 0.85, 0.4) forwards;
 }
 
 @keyframes win-window-open {
@@ -298,7 +299,8 @@ main:focus {
     flex-shrink: 0;
 }
 
-.win-titlebar-controls span {
+.win-titlebar-controls span,
+.win-titlebar-controls .win-close {
     width: 17px;
     height: 15px;
     display: grid;
@@ -311,6 +313,22 @@ main:focus {
     box-shadow:
         inset 1px 1px 0 var(--win-highlight),
         inset -1px -1px 0 var(--win-shadow-dark);
+}
+
+.win-titlebar-controls .win-close {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.win-titlebar-controls .win-close:active {
+    box-shadow:
+        inset -1px -1px 0 var(--win-highlight),
+        inset 1px 1px 0 var(--win-shadow-dark);
+}
+
+.win-titlebar-controls .win-close:focus-visible {
+    outline: 1px dotted #fff;
+    outline-offset: 1px;
 }
 
 .win-menubar {
@@ -330,6 +348,13 @@ main:focus {
 
 .win-menubar span:first-letter {
     text-decoration: underline;
+}
+
+/* "Neste steg" link at the bottom of a window */
+.next-step {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 18px;
 }
 
 .win-addressbar {
@@ -576,22 +601,7 @@ main:focus {
     margin-top: 6px;
 }
 
-/* Two windows placed side by side on wide viewports instead of stacked */
-.desktop-columns {
-    display: grid;
-    grid-template-columns: 1.7fr 1fr;
-    gap: 16px;
-    align-items: start;
-}
-
-.desktop-columns > section,
-.desktop-columns > div {
-    margin: 0;
-    min-width: 0;
-}
-
 @media (max-width: 900px) {
-    .desktop-columns { grid-template-columns: 1fr; }
     .hero-grid { grid-template-columns: 1fr; }
 }
 
@@ -606,9 +616,9 @@ main:focus {
         gap: 10px;
         padding: 10px 8px 6px;
     }
-    .desktop-icon { width: 58px; }
-    .desktop-icon__img { width: 30px; height: 30px; }
-    .desktop-icon__label { font-size: 0.62rem; }
+    .desktop-icon { width: 72px; }
+    .desktop-icon__img { width: 32px; height: 32px; }
+    .desktop-icon__label { font-size: 0.7rem; }
 }
 
 /* ==========================================================================
@@ -683,13 +693,13 @@ main:focus {
 }
 
 .team-name {
-    font-family: var(--font-ui);
-    font-size: 1.05rem;
-    line-height: 1.2;
-    font-weight: bold;
-    margin: 14px 0 2px;
+    font-family: var(--font-name);
+    font-size: 1.1rem;
+    line-height: 1.25;
+    font-weight: 600;
+    margin: 14px 0 6px;
     color: var(--win-ink);
-    letter-spacing: 0;
+    letter-spacing: -0.01em;
 }
 
 .team-role {
@@ -741,7 +751,7 @@ main:focus {
 
 .profile-modal__dialog {
     position: relative;
-    width: min(92vw, 640px);
+    width: min(94vw, 760px);
     max-height: 88vh;
     overflow-y: auto;
     background: var(--win-face);
@@ -793,7 +803,7 @@ main:focus {
 
 .profile-modal__content {
     display: grid;
-    grid-template-columns: minmax(160px, 200px) minmax(0, 1fr);
+    grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
     gap: 18px;
     align-items: start;
     padding: 0 18px;
@@ -820,7 +830,10 @@ main:focus {
 }
 
 .profile-modal__body h4 {
-    font-size: 1.15rem;
+    font-family: var(--font-name);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-size: 1.25rem;
     margin: 0 0 4px;
     color: var(--win-ink);
 }
@@ -903,96 +916,6 @@ main:focus {
     }
 }
 
-/* Practice section as a "Properties" tree/list panel */
-.practice-section {
-    max-width: 100%;
-    margin: 24px 0 0;
-    padding-top: 0;
-    border-top: none;
-}
-
-.practice-heading {
-    text-align: left;
-    margin-bottom: 12px;
-}
-
-.practice-kicker {
-    display: block;
-    margin-bottom: 4px;
-    color: var(--win-titlebar-start);
-    font-size: 0.68rem;
-    font-weight: bold;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-}
-
-.practice-heading h2 {
-    margin-bottom: 0;
-    font-size: 1.1rem;
-}
-
-.practice-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-}
-
-.practice-card {
-    padding: 8px 6px 8px;
-    background: var(--win-workspace);
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow-dark),
-        inset -2px -2px 0 var(--win-light),
-        inset 2px 2px 0 var(--win-shadow);
-    text-align: center;
-}
-
-.practice-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 56px;
-    height: 40px;
-    margin: 0 auto 6px;
-    background: var(--win-face);
-    color: var(--win-ink);
-    font-size: 0.85rem;
-    font-weight: bold;
-    letter-spacing: 0.02em;
-    box-shadow:
-        inset 1px 1px 0 var(--win-highlight),
-        inset -1px -1px 0 var(--win-shadow-dark);
-}
-
-.practice-logo img {
-    width: 100%;
-    height: 100%;
-    padding: 8px;
-    object-fit: contain;
-}
-
-.practice-logo--reviver {
-    background: #000;
-}
-
-.practice-card h3 {
-    margin-bottom: 2px;
-    font-size: 0.8rem;
-}
-
-.practice-card p {
-    margin-bottom: 0;
-    color: var(--win-ink-muted);
-    font-size: 0.74rem;
-}
-
-.practice-student {
-    margin-top: 4px;
-    color: var(--win-ink) !important;
-    font-style: italic;
-}
-
 @media (max-width: 640px) {
     .team-grid { grid-template-columns: repeat(2, 1fr); }
     .team-name { font-size: 0.9rem; }
@@ -1014,29 +937,6 @@ main:focus {
     flex-wrap: wrap;
     gap: 8px 16px;
     margin-bottom: 10px;
-}
-
-.project-toolbar label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
-}
-
-.win-select {
-    min-width: 170px;
-    padding: 3px 6px;
-    font-family: var(--font-ui);
-    font-size: 0.8rem;
-    color: var(--win-ink);
-    background: var(--win-workspace);
-    border: none;
-    border-radius: 0;
-    box-shadow:
-        inset -1px -1px 0 var(--win-highlight),
-        inset 1px 1px 0 var(--win-shadow-dark),
-        inset -2px -2px 0 var(--win-light),
-        inset 2px 2px 0 var(--win-shadow);
 }
 
 .project-toolbar__hint {
@@ -1157,21 +1057,10 @@ main:focus {
     white-space: nowrap;
 }
 
-.project-table tr[hidden] {
-    display: none;
-}
-
-.project-list__empty td {
-    padding: 28px 10px;
-    color: var(--win-ink-muted);
-    text-align: center;
-    font-style: italic;
-}
-
 /* Narrow screens: each row becomes a stacked block */
 @media (max-width: 760px) {
     .project-table thead { display: none; }
-    .project-table, .project-table tbody, .project-table tr:not([hidden]), .project-table td { display: block; }
+    .project-table, .project-table tbody, .project-table tr, .project-table td { display: block; }
     .project-table td { padding: 4px 10px; border: none; }
     .project-row { padding: 8px 0; border-bottom: 1px dotted var(--win-face-dark); }
     .project-row:focus-within { background: var(--win-selection); }
@@ -1603,7 +1492,7 @@ main:focus {
 }
 
 .boot-screen.is-done {
-    animation: boot-fade-out 420ms ease forwards;
+    animation: boot-fade-out 300ms ease forwards;
     pointer-events: none;
 }
 
@@ -1623,13 +1512,13 @@ main:focus {
     display: block;
     opacity: 0;
     transform: translateY(-16px);
-    animation: boot-flag-in 380ms ease forwards;
+    animation: boot-flag-in 260ms ease forwards;
 }
 
-.boot-logo span:nth-child(1) { background: #ff0000; animation-delay: 120ms; }
-.boot-logo span:nth-child(2) { background: #00a000; animation-delay: 260ms; }
-.boot-logo span:nth-child(3) { background: #0000ff; animation-delay: 400ms; }
-.boot-logo span:nth-child(4) { background: #ffd500; animation-delay: 540ms; }
+.boot-logo span:nth-child(1) { background: #ff0000; animation-delay: 60ms; }
+.boot-logo span:nth-child(2) { background: #00a000; animation-delay: 130ms; }
+.boot-logo span:nth-child(3) { background: #0000ff; animation-delay: 200ms; }
+.boot-logo span:nth-child(4) { background: #ffd500; animation-delay: 270ms; }
 
 @keyframes boot-flag-in {
     from { opacity: 0; transform: translateY(-16px); }
@@ -1643,7 +1532,7 @@ main:focus {
     letter-spacing: 0.03em;
     opacity: 0;
     animation: boot-fade-in 260ms ease forwards;
-    animation-delay: 700ms;
+    animation-delay: 350ms;
 }
 
 .boot-title span {
@@ -1661,7 +1550,7 @@ main:focus {
     overflow: hidden;
     opacity: 0;
     animation: boot-fade-in 260ms ease forwards;
-    animation-delay: 900ms;
+    animation-delay: 450ms;
 }
 
 .boot-bar-fill {
@@ -1691,7 +1580,7 @@ main:focus {
     color: #b8b8b8;
     opacity: 0;
     animation: boot-fade-in 260ms ease forwards;
-    animation-delay: 900ms;
+    animation-delay: 450ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1707,15 +1596,13 @@ a:focus-visible, button:focus-visible {
     outline-offset: 2px;
 }
 
-/* Win95 draws the focus rectangle inside the control */
-.team-card:focus-visible {
-    outline: 1px dotted currentColor;
-    outline-offset: -6px;
+/* Highlight the whole card while its button has keyboard focus */
+.team-card:has(.read-more-btn:focus-visible) {
     background: var(--win-selection);
     color: var(--win-selection-text);
 }
 
-.team-card:focus-visible .team-name {
+.team-card:has(.read-more-btn:focus-visible) .team-name {
     color: var(--win-selection-text);
 }
 
