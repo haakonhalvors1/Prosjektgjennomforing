@@ -224,7 +224,6 @@ function initProjectModal() {
     const barTitle = document.getElementById('projectModalBarTitle');
     const media = document.getElementById('projectModalMedia');
     const tagList = document.getElementById('projectModalTags');
-    const memberList = document.getElementById('projectModalMembers');
     const githubLink = document.getElementById('projectModalGithub');
     const demoLink = document.getElementById('projectModalDemo');
     const closeButton = modal.querySelector('.project-modal__close');
@@ -250,7 +249,7 @@ function initProjectModal() {
         if (card.dataset.video) {
             const frame = document.createElement('div');
             frame.className = 'demo-frame';
-            frame.innerHTML = `<iframe src="${card.dataset.video}" title="Videodemonstrasjon av ${card.dataset.title}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+            frame.innerHTML = `<iframe src="${card.dataset.video}" title="Demo av ${card.dataset.title}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
             media.appendChild(frame);
             return;
         }
@@ -300,17 +299,6 @@ function initProjectModal() {
         renderMedia(card);
         media.hidden = !media.children.length;
         renderTagList(tagList, splitList(card.dataset.tags));
-        memberList.replaceChildren(...splitList(card.dataset.members)
-            .map(key => TEAM_MEMBERS[key])
-            .filter(Boolean)
-            .map(member => {
-                const item = createEl('li', 'member-list__item');
-                const img = document.createElement('img');
-                img.src = member.image;
-                img.alt = '';
-                item.append(img, createEl('span', '', member.name));
-                return item;
-            }));
         githubLink.href = card.dataset.github || '#';
         githubLink.hidden = !card.dataset.github;
         demoLink.href = card.dataset.demo || '#';
@@ -338,7 +326,9 @@ function initProjectModal() {
     const list = document.getElementById('projectList');
     const filter = document.getElementById('projectFilter');
     const count = document.getElementById('projectCount');
-    const entries = [...list.querySelectorAll('.project-entry')];
+    // Prosjekter med flest deltakere øverst; like mange beholder rekkefølgen fra HTML-en
+    const entries = [...list.querySelectorAll('.project-entry')]
+        .sort((a, b) => splitList(b.dataset.members).length - splitList(a.dataset.members).length);
 
     const table = createEl('table', 'project-table');
     const head = createEl('thead');

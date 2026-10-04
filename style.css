@@ -1268,30 +1268,6 @@ main:focus {
     opacity: 1;
 }
 
-.member-list {
-    display: grid;
-    gap: 6px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.member-list__item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
-}
-
-.member-list__item img {
-    width: 28px;
-    height: 28px;
-    padding: 1px;
-    object-fit: cover;
-    background: var(--win-workspace);
-    border: 1px solid var(--win-shadow-dark);
-}
-
 /* Project popover, styled like the other Win95 property dialogs */
 .project-modal {
     position: fixed;

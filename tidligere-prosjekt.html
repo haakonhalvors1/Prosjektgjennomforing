@@ -57,7 +57,7 @@
                               data-members  kommaseparert liste: haakon, marius, mohamed, dawit, fanuel, victor
                               data-video    (valgfri) innebygd video, ELLER data-images (valgfri) bildekarusell
                             Raden i listen og detaljvinduet bygges automatisk av script.js.
-                            Legg nyeste prosjekt øverst.
+                            Listen sorteres automatisk etter antall deltakere (flest øverst).
                         -->
                         <div class="project-toolbar">
                             <label>Deltaker:
@@ -69,9 +69,22 @@
                         </div>
                         <div class="project-list" id="projectList">
                             <article class="project-entry"
+                                data-title="Nødhavner i Norge"
+                                data-badge="Vår 2026"
+                                data-meta="IS-218"
+                                data-icon="assets/images/icon-lighthouse.svg"
+                                data-short="Webkart som finner nærmeste nødhavn ut fra posisjon og radius, laget for Forsvaret og beredskap."
+                                data-summary="Et interaktivt webkart over nødhavner i Norge, utviklet for Forsvaret og andre beredskapsaktører. Brukeren kan finne nødhavner rundt egen GPS-posisjon eller et valgt punkt med valgfri radius, og treffene hentes med romlige spørringer i Supabase/PostGIS. Kartet viser også antall nødhavner per kommune, og kan filtrere på fartøyets lengde slik at bare havner som kan ta imot båten telles med."
+                                data-tags="JavaScript, Leaflet, Supabase, PostGIS, Turf.js, Python, GeoPandas"
+                                data-members="fanuel"
+                                data-github="https://github.com/FanuelHab/Geografiske-informasjonssystem-og-AI-prosjekt"
+                                data-demo="https://github.com/FanuelHab/Geografiske-informasjonssystem-og-AI-prosjekt/blob/main/assets/N%C3%B8dhavner%20i%20Norge,%2003.05.26.mp4">
+                            </article>
+
+                            <article class="project-entry"
                                 data-title="Kriseveier for spesialkjøretøy"
-                                data-badge="Nyeste prosjekt"
-                                data-meta="GIS og kartografi"
+                                data-badge="Vår 2026"
+                                data-meta="IS-218"
                                 data-icon="assets/images/icon-truck.svg"
                                 data-short="Webkart som finner trygge ruter for spesialkjøretøy, basert på vegdata fra NVDB."
                                 data-summary="Et interaktivt webkart for planlegging av trygg transport med store spesialkjøretøy. Løsningen visualiserer vegnett og restriksjonsdata fra NVDB, slik at brukeren kan finne veier som passer kjøretøyets dimensjoner."
@@ -135,10 +148,6 @@
                                             <dt>Periode</dt>
                                             <dd id="projectModalBadge"></dd>
                                         </dl>
-                                    </fieldset>
-                                    <fieldset class="win-group">
-                                        <legend>Deltakere</legend>
-                                        <ul class="member-list" id="projectModalMembers"></ul>
                                     </fieldset>
                                     <fieldset class="win-group">
                                         <legend>Teknologier</legend>
