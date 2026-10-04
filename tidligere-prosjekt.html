@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="no" style="background:url('assets/images/windowsBakgrunn.jpg') no-repeat center center fixed;background-size:100% 100%">
+<html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Se tidligere prosjekter utviklet av Gruppe 5 innen GIS, kartografi og digitale løsninger.">
     <title>Tidligere prosjekter | Gruppe 5</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Tidligere prosjekter | Gruppe 5">
+    <meta property="og:description" content="Se tidligere prosjekter utviklet av Gruppe 5 innen GIS, kartografi og digitale løsninger.">
+    <meta property="og:image" content="assets/images/favicon-180.png">
     <link rel="icon" href="assets/images/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="assets/images/favicon-48.png" sizes="48x48">
     <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=10">
     <script>(function(){try{if(sessionStorage.getItem('gruppe5-booted')==='1'){document.documentElement.classList.add('no-boot');}}catch(e){}})();</script>
 </head>
 <body class="project-page">
@@ -18,6 +22,7 @@
         <div class="boot-bar"></div>
         <p class="boot-status">Starter GRUPPE5...</p>
     </div>
+    <a class="skip-link" href="#main">Hopp til innhold</a>
     <nav class="desktop-nav" aria-label="Hovedmeny">
         <a href="index.html" class="desktop-icon">
             <img class="desktop-icon__img" src="assets/images/Windows_95_FOLDER.png" alt="" aria-hidden="true">
@@ -33,47 +38,67 @@
         </a>
     </nav>
 
-    <main>
+    <main id="main" tabindex="-1">
         <section class="projects-list">
             <div class="container">
                 <div class="win-window">
                     <div class="win-titlebar">
-                        <span class="win-titlebar-text"><span class="win-titlebar-icon" aria-hidden="true"></span>PROSJEKTARKIV.EXE – [Tidligere prosjekt]</span>
+                        <span class="win-titlebar-text"><span class="win-titlebar-icon" aria-hidden="true"></span>Tidligere prosjekter</span>
                         <span class="win-titlebar-controls" aria-hidden="true"><span>_</span><span>▢</span><span>×</span></span>
                     </div>
                     <div class="win-menubar" aria-hidden="true"><span>Fil</span><span>Rediger</span><span>Vis</span><span>Hjelp</span></div>
                     <div class="win-addressbar" aria-hidden="true"><span class="win-addressbar-icon"></span><span class="win-addressbar-path">C:\GRUPPE5\PROSJEKTER</span></div>
                     <div class="win-body">
-                        <div class="project-grid">
-                            <article class="project-card"
+                        <!--
+                            Nytt prosjekt? Kopier en <article class="project-entry"> og fyll inn data-feltene:
+                              data-short    én kort setning som vises i listen (data-summary vises i detaljvinduet)
+                              data-tags     kommaseparert liste med teknologier
+                              data-icon     (valgfri) sti til eget ikon, ellers brukes programikonet
+                              data-members  kommaseparert liste: haakon, marius, mohamed, dawit, fanuel, victor
+                              data-video    (valgfri) innebygd video, ELLER data-images (valgfri) bildekarusell
+                            Raden i listen og detaljvinduet bygges automatisk av script.js.
+                            Legg nyeste prosjekt øverst.
+                        -->
+                        <div class="project-toolbar">
+                            <label>Deltaker:
+                                <select class="win-select" id="projectFilter">
+                                    <option value="">Alle</option>
+                                </select>
+                            </label>
+                            <p class="project-toolbar__hint">Klikk på et prosjekt for detaljer</p>
+                        </div>
+                        <div class="project-list" id="projectList">
+                            <article class="project-entry"
                                 data-title="Kriseveier for spesialkjøretøy"
                                 data-badge="Nyeste prosjekt"
                                 data-meta="GIS og kartografi"
+                                data-icon="assets/images/icon-truck.svg"
+                                data-short="Webkart som finner trygge ruter for spesialkjøretøy, basert på vegdata fra NVDB."
                                 data-summary="Et interaktivt webkart for planlegging av trygg transport med store spesialkjøretøy. Løsningen visualiserer vegnett og restriksjonsdata fra NVDB, slik at brukeren kan finne veier som passer kjøretøyets dimensjoner."
+                                data-tags="JavaScript, MapLibre GL, NVDB API, Supabase, Vite, Python"
+                                data-members="haakon, dawit, marius"
                                 data-github="https://github.com/haakonhalvors1/Oppgave-1-Webutvikling-GIS-Kartografi"
                                 data-demo="https://drive.google.com/file/d/18L1O8_KvjrtxI3nclD9tCHddyP6_yICU/view?usp=sharing"
                                 data-video="https://drive.google.com/file/d/18L1O8_KvjrtxI3nclD9tCHddyP6_yICU/preview">
-                                <div class="project-card-icon"><img src="assets/images/Windows_95_FOLDER.png" alt="" aria-hidden="true"></div>
-                                <h3 class="project-card-title">Kriseveier for spesialkjøretøy</h3>
-                                <p class="project-card-tag">GIS og kartografi</p>
                             </article>
 
-                            <article class="project-card"
+                            <article class="project-entry"
                                 data-title="Innrapportering av luftfarthindringer"
                                 data-badge="Høst 2025"
                                 data-meta="IS-200 · IS-201 · IS-202"
+                                data-icon="assets/images/icon-helicopter.svg"
+                                data-short="App der piloter raskt melder inn luftfarthindringer til Kartverket under flyvning."
                                 data-summary="Et tverrfaglig prosjekt i samarbeid med Kartverket og Luftambulansen. Applikasjonen lar piloter registrere luftfarthindringer raskt under flyvning og fullføre rapporten etter oppdraget. Piloten kan lagre posisjonen direkte, supplere med høyde, hindringstype og beskrivelse, og sende rapporten til behandling hos Kartverket."
+                                data-tags="C#, ASP.NET MVC, Entity Framework, MySQL, Docker, xUnit"
+                                data-members="haakon, fanuel, marius, dawit, mohamed"
                                 data-github="https://github.com/dawitandom/Kartverket_2025"
                                 data-demo="https://drive.google.com/file/d/1dspBtY4GGQ_QETpEF2BD9b5O8YMfv9a3/view"
                                 data-images='[{"src":"assets/images/forside.jpeg","alt":"Forsiden til løsningen for rapportering av luftfarthindringer"},{"src":"assets/images/login.jpeg","alt":"Påloggingssiden i løsningen"},{"src":"assets/images/rapport1.jpg","alt":"Rapportvisning med kartdata"},{"src":"assets/images/rapport2.jpg","alt":"Utfylling av rapportdetaljer"}]'>
-                                <div class="project-card-icon"><img src="assets/images/Windows_95_FOLDER.png" alt="" aria-hidden="true"></div>
-                                <h3 class="project-card-title">Innrapportering av luftfarthindringer</h3>
-                                <p class="project-card-tag">Høst 2025</p>
                             </article>
                         </div>
                     </div>
                     <div class="win-statusbar">
-                        <div>2 objekter</div>
+                        <div id="projectCount">2 objekter</div>
                         <div>Gruppe 5</div>
                     </div>
                 </div>
@@ -81,19 +106,52 @@
                 <div class="project-modal" id="projectModal" aria-hidden="true">
                     <div class="project-modal__backdrop" data-close-project-modal="true"></div>
                     <div class="project-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
-                        <button class="project-modal__close" type="button" aria-label="Lukk">×</button>
-                        <div class="project-modal__body">
-                            <div class="project-modal__topline">
-                                <span class="project-badge" id="projectModalBadge"></span>
-                                <span id="projectModalMeta"></span>
+                        <div class="win-titlebar">
+                            <span class="win-titlebar-text"><img class="project-modal__bar-icon" id="projectModalBarIcon" src="" alt=""><span id="projectModalBarTitle">Prosjekt</span></span>
+                            <button class="project-modal__close" type="button" aria-label="Lukk">×</button>
+                        </div>
+
+                        <div class="project-modal__panel">
+                            <div class="project-modal__head">
+                                <img class="project-modal__icon" id="projectModalIcon" src="" alt="">
+                                <div>
+                                    <h4 id="projectModalTitle">Navn</h4>
+                                    <p class="project-modal__short" id="projectModalShort"></p>
+                                </div>
                             </div>
-                            <h4 id="projectModalTitle">Navn</h4>
-                            <p id="projectModalSummary" class="project-modal__summary"></p>
-                            <div class="project-modal__media" id="projectModalMedia"></div>
-                            <div class="project-actions">
-                                <a id="projectModalGithub" class="home-btn home-btn-primary" href="#" target="_blank" rel="noopener noreferrer">Se prosjektet på GitHub <span aria-hidden="true">↗</span></a>
-                                <a id="projectModalDemo" class="text-link" href="#" target="_blank" rel="noopener noreferrer">Åpne demo ↗</a>
+                            <hr class="win-separator">
+                            <div class="project-modal__layout">
+                                <div class="project-modal__main">
+                                    <div class="project-modal__media" id="projectModalMedia"></div>
+                                    <h5 class="project-modal__heading">Om prosjektet</h5>
+                                    <p class="project-modal__summary" id="projectModalSummary"></p>
+                                </div>
+                                <aside class="project-modal__side">
+                                    <fieldset class="win-group">
+                                        <legend>Detaljer</legend>
+                                        <dl class="project-modal__facts">
+                                            <dt>Tema</dt>
+                                            <dd id="projectModalMeta"></dd>
+                                            <dt>Periode</dt>
+                                            <dd id="projectModalBadge"></dd>
+                                        </dl>
+                                    </fieldset>
+                                    <fieldset class="win-group">
+                                        <legend>Deltakere</legend>
+                                        <ul class="member-list" id="projectModalMembers"></ul>
+                                    </fieldset>
+                                    <fieldset class="win-group">
+                                        <legend>Teknologier</legend>
+                                        <ul class="tag-list" id="projectModalTags"></ul>
+                                    </fieldset>
+                                </aside>
                             </div>
+                        </div>
+
+                        <div class="project-modal__buttons">
+                            <a id="projectModalGithub" class="home-btn" href="#" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+                            <a id="projectModalDemo" class="home-btn" href="#" target="_blank" rel="noopener noreferrer">Åpne demo <span aria-hidden="true">↗</span></a>
+                            <button class="home-btn home-btn-primary project-modal__ok" type="button">OK</button>
                         </div>
                     </div>
                 </div>
@@ -101,6 +159,6 @@
         </section>
     </main>
 
-    <script src="script.js?v=7"></script>
+    <script src="script.js?v=10"></script>
 </body>
 </html>
