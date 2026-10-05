@@ -272,25 +272,14 @@ main:focus {
 }
 
 .win-titlebar-icon {
-    width: 14px;
-    height: 11px;
+    width: 16px;
+    height: 16px;
     flex-shrink: 0;
     margin-left: 2px;
-    background: #ffd050;
-    border: 1px solid #6b4a00;
-    position: relative;
-}
-
-.win-titlebar-icon::before {
-    content: "";
-    position: absolute;
-    top: -3px;
-    left: 0;
-    width: 6px;
-    height: 3px;
-    background: #ffd050;
-    border: 1px solid #6b4a00;
-    border-bottom: none;
+    padding: 1px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 2px;
 }
 
 .win-titlebar-controls {
@@ -571,6 +560,12 @@ main:focus {
     flex-direction: column;
     justify-content: center;
     gap: 10px;
+}
+
+.hero-logo {
+    width: 110px;
+    height: auto;
+    margin-bottom: 6px;
 }
 
 .hero h1 {
@@ -1501,24 +1496,13 @@ main:focus {
 }
 
 .boot-logo {
-    display: grid;
-    grid-template-columns: repeat(2, 30px);
-    grid-template-rows: repeat(2, 30px);
-    gap: 4px;
-    transform: skewY(-6deg);
-}
-
-.boot-logo span {
-    display: block;
+    width: 96px;
+    height: auto;
     opacity: 0;
     transform: translateY(-16px);
-    animation: boot-flag-in 260ms ease forwards;
+    animation: boot-flag-in 360ms ease forwards;
+    animation-delay: 60ms;
 }
-
-.boot-logo span:nth-child(1) { background: #ff0000; animation-delay: 60ms; }
-.boot-logo span:nth-child(2) { background: #00a000; animation-delay: 130ms; }
-.boot-logo span:nth-child(3) { background: #0000ff; animation-delay: 200ms; }
-.boot-logo span:nth-child(4) { background: #ffd500; animation-delay: 270ms; }
 
 @keyframes boot-flag-in {
     from { opacity: 0; transform: translateY(-16px); }
