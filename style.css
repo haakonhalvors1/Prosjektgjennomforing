@@ -502,6 +502,24 @@ main:focus {
     padding: 4px;
 }
 
+.intro-video {
+    align-self: center;
+    background: #000;
+    padding: 2px;
+    box-shadow:
+        inset -1px -1px 0 var(--win-highlight),
+        inset 1px 1px 0 var(--win-shadow-dark),
+        inset -2px -2px 0 var(--win-light),
+        inset 2px 2px 0 var(--win-shadow);
+}
+
+.intro-video video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    display: block;
+    background: #000;
+}
+
 .photo-frame {
     display: flex;
     flex-direction: column;
