@@ -65,16 +65,22 @@ html {
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     --dur-fast: 140ms;
 
-    /* UI scale — enlarges the whole desktop on big screens */
-    --ui-zoom: 1;
+    /* UI scale — the desktop is scaled to fit the screen. Width and height
+       each pick a scale; the smaller one wins, so pages fit without scrolling. */
+    --zoom-w: 1;
+    --zoom-h: 1;
+    --ui-zoom: min(var(--zoom-w), var(--zoom-h));
 }
 
-/* Bigger screens get a proportionally bigger desktop, so the windows don't
-   look tiny on large monitors. Height is checked too, so wide-but-short
-   screens aren't scaled past what fits. */
-@media (min-width: 1600px) and (min-height: 750px) { :root { --ui-zoom: 1.2; } }
-@media (min-width: 1900px) and (min-height: 900px) { :root { --ui-zoom: 1.35; } }
-@media (min-width: 2300px) and (min-height: 1100px) { :root { --ui-zoom: 1.6; } }
+/* Tallest page (Om oss) needs ~675px at scale 1, so each height step is
+   ~675px × scale. Never below 1, so text stays readable — very short
+   screens scroll a little instead. */
+@media (min-width: 1600px) { :root { --zoom-w: 1.2; } }
+@media (min-width: 1900px) { :root { --zoom-w: 1.35; } }
+@media (min-width: 2300px) { :root { --zoom-w: 1.6; } }
+@media (min-height: 810px) { :root { --zoom-h: 1.2; } }
+@media (min-height: 912px) { :root { --zoom-h: 1.35; } }
+@media (min-height: 1080px) { :root { --zoom-h: 1.6; } }
 
 main,
 .desktop-nav {
@@ -139,7 +145,7 @@ a {
 }
 
 main {
-    padding: 22px 0 48px;
+    padding: 16px 0;
 }
 
 main:focus {
@@ -239,7 +245,7 @@ main:focus {
         inset 1px 1px 0 var(--win-light),
         inset -1px -1px 0 var(--win-shadow),
         3px 3px 0 rgba(0,0,0,0.25);
-    margin: 0 0 26px;
+    margin: 0;
     min-width: 0;
     transform-origin: center top;
 }
@@ -672,20 +678,20 @@ main:focus {
 /* Om oss: gruppeteksten til venstre og medlemmene til høyre, så alt får plass uten scrolling */
 .about-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
     gap: 16px;
     align-items: start;
 }
 
 .about-group {
-    padding: 12px 18px 16px;
+    padding: 8px 18px 12px;
 }
 
 /* Gruppebilde som bred stripe øverst i "Om gruppen", med plassholder til bildet finnes */
 .about-photo {
     position: relative;
-    margin: 4px 0 10px;
-    aspect-ratio: 3 / 1;
+    margin: 4px 0 8px;
+    aspect-ratio: 4 / 1;
     overflow: hidden;
     border: 1px solid var(--win-shadow-dark);
     box-shadow: inset 0 0 0 1px var(--win-highlight);
@@ -697,7 +703,7 @@ main:focus {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center 35%;
 }
 
 .about-photo__empty {
@@ -718,7 +724,7 @@ main:focus {
 }
 
 .about-group h2 {
-    margin: 10px 0 1px;
+    margin: 7px 0 1px;
     font-size: 0.92rem;
     color: var(--win-titlebar-start);
 }
@@ -728,7 +734,7 @@ main:focus {
     margin: 0;
     max-width: 75ch;
     font-size: 0.9rem;
-    line-height: 1.55;
+    line-height: 1.5;
     color: var(--win-ink);
 }
 
@@ -741,10 +747,15 @@ main:focus {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 12px;
+    margin-top: 8px;
 }
 
 .about-team {
+    padding: 12px;
+}
+
+/* Litt mindre luft i Om oss-vinduet, så siden får plass uten scrolling */
+.team-page .win-body {
     padding: 12px;
 }
 
@@ -769,15 +780,6 @@ main:focus {
 .about-team .read-more-btn {
     font-size: 0.76rem;
     padding: 3px 10px;
-}
-
-/* Mindre luft under vinduet, så Om oss får plass på én skjerm */
-.team-page main {
-    padding-bottom: 16px;
-}
-
-.team-page .win-window {
-    margin-bottom: 0;
 }
 
 @media (max-width: 900px) {
@@ -1081,7 +1083,7 @@ main:focus {
    ========================================================================== */
 
 .projects-list {
-    padding: 4px 0 40px !important;
+    padding: 4px 0 0 !important;
 }
 
 /* Project list — Explorer "Details" view: one row per project, scales to many */
