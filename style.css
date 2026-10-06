@@ -642,6 +642,121 @@ main:focus {
     padding-top: 4px;
 }
 
+/* Om oss: gruppeteksten til venstre og medlemmene til høyre, så alt får plass uten scrolling */
+.about-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.about-group {
+    padding: 12px 18px 16px;
+}
+
+/* Gruppebilde som bred stripe øverst i "Om gruppen", med plassholder til bildet finnes */
+.about-photo {
+    position: relative;
+    margin: 4px 0 10px;
+    aspect-ratio: 3 / 1;
+    overflow: hidden;
+    border: 1px solid var(--win-shadow-dark);
+    box-shadow: inset 0 0 0 1px var(--win-highlight);
+    background: var(--win-face-dark);
+}
+
+.about-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.about-photo__empty {
+    display: none;
+}
+
+.about-photo.is-empty img {
+    display: none;
+}
+
+.about-photo.is-empty .about-photo__empty {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--win-ink-muted);
+    font-size: 0.82rem;
+}
+
+.about-group h2 {
+    margin: 10px 0 1px;
+    font-size: 0.92rem;
+    color: var(--win-titlebar-start);
+}
+
+/* Grå bakgrunn, men svart tekst, litt større skrift og luft mellom linjene for lesbarhet */
+.about-group p {
+    margin: 0;
+    max-width: 75ch;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--win-ink);
+}
+
+.about-group .about-lead {
+    font-size: 0.92rem;
+    color: var(--win-ink);
+}
+
+.about-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.about-team {
+    padding: 12px;
+}
+
+/* Kompakte kort i Om oss-oppsettet */
+.about-team .team-grid {
+    gap: 10px;
+}
+
+.about-team .team-card {
+    padding: 10px 8px 12px;
+}
+
+.about-team .profile-image {
+    max-width: 110px;
+}
+
+.about-team .team-name {
+    font-size: 0.86rem;
+    margin: 8px 0 6px;
+}
+
+.about-team .read-more-btn {
+    font-size: 0.76rem;
+    padding: 3px 10px;
+}
+
+/* Mindre luft under vinduet, så Om oss får plass på én skjerm */
+.team-page main {
+    padding-bottom: 16px;
+}
+
+.team-page .win-window {
+    margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+    .about-layout { grid-template-columns: 1fr; }
+}
+
 /* Team grid presented as explorer icon view, 3 cards over 2 */
 .team-grid {
     display: grid;
