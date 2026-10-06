@@ -64,6 +64,21 @@ html {
     /* Motion */
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     --dur-fast: 140ms;
+
+    /* UI scale — enlarges the whole desktop on big screens */
+    --ui-zoom: 1;
+}
+
+/* Bigger screens get a proportionally bigger desktop, so the windows don't
+   look tiny on large monitors. Height is checked too, so wide-but-short
+   screens aren't scaled past what fits. */
+@media (min-width: 1600px) and (min-height: 750px) { :root { --ui-zoom: 1.2; } }
+@media (min-width: 1900px) and (min-height: 900px) { :root { --ui-zoom: 1.35; } }
+@media (min-width: 2300px) and (min-height: 1100px) { :root { --ui-zoom: 1.6; } }
+
+main,
+.desktop-nav {
+    zoom: var(--ui-zoom);
 }
 
 body {
@@ -71,7 +86,7 @@ body {
     line-height: 1.5;
     color: var(--win-ink);
     font-size: 14px;
-    padding-left: 110px;
+    padding-left: calc(110px * var(--ui-zoom));
     -webkit-font-smoothing: antialiased;
 }
 
@@ -614,6 +629,18 @@ main:focus {
     margin-top: 6px;
 }
 
+/* Home page: centre the window vertically on the desktop. vh inside the
+   zoomed main is multiplied by the zoom, so divide it back out. */
+@media (min-width: 641px) {
+    .home-page main {
+        min-height: calc(100vh / var(--ui-zoom));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .home-page .container { width: 100%; }
+}
+
 @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; }
 }
@@ -880,7 +907,7 @@ main:focus {
 .profile-modal__dialog {
     position: relative;
     width: min(94vw, 760px);
-    max-height: 88vh;
+    max-height: calc(88vh / var(--ui-zoom));
     overflow-y: auto;
     background: var(--win-face);
     border: 1px solid var(--win-shadow-dark);
@@ -1316,7 +1343,7 @@ main:focus {
     display: flex;
     flex-direction: column;
     width: min(94vw, 940px);
-    max-height: 92vh;
+    max-height: calc(92vh / var(--ui-zoom));
     padding: 3px;
     background: var(--win-face);
     border: 1px solid var(--win-shadow-dark);
