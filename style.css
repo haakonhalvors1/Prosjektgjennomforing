@@ -691,7 +691,7 @@ main:focus {
 .about-photo {
     position: relative;
     margin: 4px 0 8px;
-    aspect-ratio: 4 / 1;
+    aspect-ratio: 3.2 / 1;
     overflow: hidden;
     border: 1px solid var(--win-shadow-dark);
     box-shadow: inset 0 0 0 1px var(--win-highlight);
@@ -741,13 +741,6 @@ main:focus {
 .about-group .about-lead {
     font-size: 0.92rem;
     color: var(--win-ink);
-}
-
-.about-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 8px;
 }
 
 .about-team {
