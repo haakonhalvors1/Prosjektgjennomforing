@@ -995,6 +995,11 @@ main:focus {
     color: var(--win-ink);
 }
 
+.profile-modal__role {
+    font-weight: 400;
+    color: var(--win-ink-muted);
+}
+
 .profile-modal__bio {
     margin: 0 0 14px;
     color: var(--win-ink);

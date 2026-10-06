@@ -189,6 +189,9 @@ function initProfileModal() {
         image.src = card.dataset.image;
         image.alt = card.dataset.name;
         title.textContent = card.dataset.name;
+        if (card.dataset.role) {
+            title.append(' – ', createEl('span', 'profile-modal__role', card.dataset.role));
+        }
         bio.textContent = card.dataset.bio;
         const links = profileLinks[card.dataset.name] || {};
         githubLink.href = links.github || '#';
