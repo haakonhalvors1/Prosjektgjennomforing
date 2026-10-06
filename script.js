@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initBootScreen();
     initProfileModal();
     initProjectModal();
+    initContactModal();
     initWindowTransitions();
 });
 
@@ -226,6 +227,7 @@ function initProfileModal() {
         if (event.key === 'Escape') closeModal();
         trapFocus(modal, event);
     });
+
 }
 
 function initProjectModal() {
@@ -417,5 +419,94 @@ function initWindowTransitions() {
             });
             setTimeout(() => { window.location.href = href; }, closeDuration);
         });
+    });
+}
+
+// Kontaktvindu for bachelorbedrifter, åpnes fra "Kontakt oss"-ikonet og knappene med data-contact
+const CONTACT_EMAIL = 'fanueloh@student.uia.no';
+const CONTACT_SUBJECT = 'Bachelorsamarbeid med Systema';
+
+function initContactModal() {
+    const triggers = document.querySelectorAll('[data-contact]');
+    if (!triggers.length) return;
+
+    const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT)}`;
+    document.body.insertAdjacentHTML('beforeend', `
+        <div class="project-modal contact-modal" id="contactModal" aria-hidden="true">
+            <div class="project-modal__backdrop" data-close-contact="true"></div>
+            <div class="project-modal__dialog contact-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+                <div class="win-titlebar">
+                    <span class="win-titlebar-text"><img class="project-modal__bar-icon" src="assets/images/icon-mail.svg" alt="">Ny melding</span>
+                    <button class="project-modal__close" type="button" aria-label="Lukk">×</button>
+                </div>
+                <div class="contact-modal__content">
+                    <div class="contact-modal__body">
+                        <img class="contact-modal__icon" src="assets/images/icon-mail.svg" alt="" width="56" height="56">
+                        <div>
+                            <h2 id="contactModalTitle">La oss samarbeide om bacheloroppgaven!</h2>
+                            <p>Vi gleder oss til å høre fra dere. Send en e-post, så tar vi kontakt.</p>
+                        </div>
+                    </div>
+                    <p class="contact-modal__email">
+                        <span>Kontakt:</span>
+                        <a href="${mailto}">${CONTACT_EMAIL}</a>
+                    </p>
+                    <p class="contact-modal__status" role="status" aria-live="polite"></p>
+                </div>
+                <div class="project-modal__buttons">
+                    <button class="home-btn contact-modal__copy" type="button">Kopier adresse</button>
+                    <button class="home-btn home-btn-primary contact-modal__cancel" type="button">OK</button>
+                </div>
+            </div>
+        </div>`);
+
+    const modal = document.getElementById('contactModal');
+    const status = modal.querySelector('.contact-modal__status');
+    const okButton = modal.querySelector('.contact-modal__cancel');
+    let lastFocused = null;
+
+    const openModal = (trigger) => {
+        lastFocused = trigger;
+        status.textContent = '';
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => {
+            modal.classList.add('is-visible');
+            okButton.focus();
+        });
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('is-visible');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        setTimeout(() => modal.classList.remove('is-open'), 340);
+        if (lastFocused) lastFocused.focus();
+    };
+
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            openModal(trigger);
+        });
+    });
+
+    modal.querySelector('.contact-modal__copy').addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(CONTACT_EMAIL);
+            status.textContent = 'Adressen er kopiert til utklippstavlen.';
+        } catch (e) {
+            status.textContent = `Kunne ikke kopiere. Adressen er ${CONTACT_EMAIL}`;
+        }
+    });
+
+    modal.querySelectorAll('.project-modal__close, .contact-modal__cancel, [data-close-contact]')
+        .forEach(el => el.addEventListener('click', closeModal));
+
+    document.addEventListener('keydown', (event) => {
+        if (!modal.classList.contains('is-open')) return;
+        if (event.key === 'Escape') closeModal();
+        trapFocus(modal, event);
     });
 }
