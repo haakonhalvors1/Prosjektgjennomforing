@@ -1005,6 +1005,16 @@ main:focus {
         inset 1px 1px 0 var(--win-shadow);
 }
 
+/* Tech stack chips under the bio */
+.profile-modal__stack-title {
+    margin: 0 0 6px;
+    font-size: 0.85rem;
+}
+
+.profile-modal__stack .tag-list {
+    margin-bottom: 14px;
+}
+
 .profile-modal__body h5 {
     margin: 12px 0 6px;
     font-size: 0.85rem;
@@ -1119,6 +1129,8 @@ main:focus {
 .project-table th {
     position: sticky;
     top: 0;
+    /* Over the positioned avatars (z-index 1 on hover) when rows scroll under */
+    z-index: 2;
     padding: 4px 12px;
     background: var(--win-face);
     font-weight: normal;
@@ -1195,6 +1207,24 @@ main:focus {
 .project-row__open:focus-visible {
     outline: 1px dotted currentColor;
     outline-offset: 2px;
+}
+
+/* Raised label marking internship (praksis) projects */
+.project-row__chip {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 6px;
+    vertical-align: 2px;
+    background: var(--win-ok);
+    color: #ffffff;
+    border: 1px solid;
+    border-color: #4fbf4f var(--win-shadow-dark) var(--win-shadow-dark) #4fbf4f;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .project-row__summary {

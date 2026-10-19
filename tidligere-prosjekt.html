@@ -12,7 +12,7 @@
     <link rel="icon" href="assets/images/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="assets/images/favicon-48.png" sizes="48x48">
     <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
-    <link rel="stylesheet" href="style.css?v=55">
+    <link rel="stylesheet" href="style.css?v=62">
     <script>(function(){try{if(sessionStorage.getItem('systema-booted')==='1'){document.documentElement.classList.add('no-boot');}}catch(e){}})();</script>
 </head>
 <body class="project-page">
@@ -63,6 +63,7 @@
                               data-tags     kommaseparert liste med teknologier
                               data-icon     (valgfri) sti til eget ikon, ellers brukes programikonet
                               data-members  kommaseparert liste: haakon, marius, mohamed, dawit, fanuel, victor
+                              data-info     (valgfri) lenke til informasjonsside, vises som «Les mer» i stedet for demo
                               data-video    (valgfri) innebygd video, ELLER data-images (valgfri) bildekarusell
                             Raden i listen og detaljvinduet bygges automatisk av script.js.
                             Listen sorteres automatisk etter antall deltakere (flest øverst).
@@ -80,7 +81,7 @@
                                 data-summary="Et praksisprosjekt i samarbeid med Smaragd Motorsport, en aktør innen bilsport, tuning og eksklusive bildeler til premium sportsbiler. I dag håndteres salg, bestillinger og ordre manuelt, og gruppen utvikler derfor en produksjonsklar e-handelsplattform med produktkatalog, søk, handlekurv og checkout. Løsningen har produktdatabase med leverandørintegrasjoner, dynamisk prissetting basert på valutakurser og bedriftens prisregler, ordre- og betalingshåndtering for reelle transaksjoner og et eget adminsystem. Mohamed utvikler systemet for pris, valuta og automatisering, og Marius har ansvar for backend, ordreflyt og transaksjoner."
                                 data-tags="Supabase, Nettbutikk, Dynamisk prissetting, Leverandørintegrasjoner, Adminsystem"
                                 data-members="marius, mohamed"
-                                data-demo="https://dennistae.github.io/">
+                                data-info="https://dennistae.github.io/">
                             </article>
 
                             <article class="project-entry"
@@ -92,7 +93,43 @@
                                 data-summary="Et praksisprosjekt for utviklingsavdelingen i IK Start. I dag ligger oversikten over spillerne spredt, og den ukentlige oppfølgingen gjøres manuelt. StartCompass samler spillere og lag i én trenerhub. Hver uke vurderer spillerne seg selv fra 1 til 5 på de fem C-ene (Commitment, Communication, Concentration, Control og Confidence), og for de yngste fyller foresatte ut. Systemet sammenligner spillerens egen vurdering med trenerens forventning og viser utviklingen i grafer over uker, måneder og mesosykluser. Fordi løsningen håndterer opplysninger om mindreårige, styres tilgangen etter rolle: administrator, trener, foresatt og spiller."
                                 data-tags="MVC, Rollebasert tilgang, Datavisualisering, Brukertesting, Personvern"
                                 data-members="victor"
-                                data-demo="https://techsquad-start.github.io/PraksisProsjekt/">
+                                data-info="https://techsquad-start.github.io/PraksisProsjekt/">
+                            </article>
+
+                            <article class="project-entry"
+                                data-title="Analysedashbord for IK Start"
+                                data-badge="Høst 2026 (pågår)"
+                                data-meta="IS-302 · Praksis"
+                                data-icon="assets/images/icon-football.svg"
+                                data-short="AI-basert dashbord som analyserer treningsøkter og kamper for IK Start."
+                                data-summary="Et praksisprosjekt hos IK Start, der Dawit sammen med andre studenter utvikler et AI-basert dashbord for klubben. Løsningen samler data fra treningsøkter og kamper og analyserer dem, slik at trenere og støtteapparat får bedre innsikt i prestasjoner og utvikling over tid."
+                                data-tags="AI, Dataanalyse, Dashbord, Datavisualisering"
+                                data-members="dawit"
+                                data-github="https://github.com/eliasnahiry/IK-Start-Dashbord-2026-2027">
+                            </article>
+
+                            <article class="project-entry"
+                                data-title="Tilstedeværelsesoversikt for Skatteetaten"
+                                data-badge="Høst 2026 (pågår)"
+                                data-meta="IS-302 · Praksis"
+                                data-icon="assets/images/icon-office.svg"
+                                data-short="Webapplikasjon som viser hvem i teamet som er på kontoret, på hjemmekontor eller borte."
+                                data-summary="Et praksisprosjekt hos Skatteetatens IT-avdeling i Grimstad. I dag holder teamet oversikt over hvor medarbeiderne befinner seg i et Excel-ark. Haakon utvikler en webapplikasjon som erstatter dette, der hver enkelt registrerer om de sitter på kontoret i Grimstad, Kristiansand, har hjemmekontor eller er borte. Alt vises i en oversiktlig tabell, og løsningen gir dags- og ukestatistikk over tilstedeværelse og visualiserer utviklingen over tid."
+                                data-tags="Webapplikasjon, Statistikk, Datavisualisering, Prosjektledelse"
+                                data-members="haakon"
+                                data-info="https://haakonhalvors1.github.io/Praksis-Skatteetaten/index.html">
+                            </article>
+
+                            <article class="project-entry"
+                                data-title="AI-støttede kundemøter for Reviver"
+                                data-badge="Høst 2026 (pågår)"
+                                data-meta="IS-302 · Praksis"
+                                data-icon="assets/images/icon-notes.svg"
+                                data-short="Claude-skill som gjør korte møtenotater om til ferdige referater med action points og oppfølging."
+                                data-summary="Et praksisprosjekt hos Reviver, en start-up i Kristiansand som lager en B2B-plattform for handel og sporbarhet av resirkulert plast. Målet er å gjøre kundemøtene mer strukturerte. Fanuel bygde først appen «Møtereferat AI» med kobling mot HubSpot, men løsningen ble senere gjort om til en Claude-skill som hele teamet bruker. Skillen gjør korte notater om til et ferdig referat med action points, kundens behov og videre oppfølging, skriver utkast til oppfølgingsepost og oppdaterer salgsoversikten og lead-oversikten i Excel."
+                                data-tags="Claude, AI, Automatisering, Systemintegrasjon, HubSpot, SharePoint"
+                                data-members="fanuel"
+                                data-info="https://fanuelhab.github.io/PraksisProsjekt/">
                             </article>
 
                             <article class="project-entry"
@@ -104,8 +141,7 @@
                                 data-summary="Et interaktivt webkart over nødhavner i Norge, utviklet for Forsvaret og andre beredskapsaktører. Brukeren kan finne nødhavner rundt egen GPS-posisjon eller et valgt punkt med valgfri radius, og treffene hentes med romlige spørringer i Supabase/PostGIS. Kartet viser også antall nødhavner per kommune, og kan filtrere på fartøyets lengde slik at bare havner som kan ta imot båten telles med."
                                 data-tags="JavaScript, Leaflet, Supabase, PostGIS, Turf.js, Python, GeoPandas"
                                 data-members="fanuel"
-                                data-github="https://github.com/FanuelHab/Geografiske-informasjonssystem-og-AI-prosjekt"
-                                data-demo="https://github.com/FanuelHab/Geografiske-informasjonssystem-og-AI-prosjekt/blob/main/assets/N%C3%B8dhavner%20i%20Norge,%2003.05.26.mp4">
+                                data-github="https://github.com/FanuelHab/Geografiske-informasjonssystem-og-AI-prosjekt">
                             </article>
 
                             <article class="project-entry"
@@ -118,7 +154,6 @@
                                 data-tags="JavaScript, MapLibre GL, NVDB API, Supabase, Vite, Python"
                                 data-members="haakon, dawit, marius, mohamed"
                                 data-github="https://github.com/haakonhalvors1/Oppgave-1-Webutvikling-GIS-Kartografi"
-                                data-demo="https://drive.google.com/file/d/18L1O8_KvjrtxI3nclD9tCHddyP6_yICU/view?usp=sharing"
                                 data-video="https://drive.google.com/file/d/18L1O8_KvjrtxI3nclD9tCHddyP6_yICU/preview">
                             </article>
 
@@ -190,6 +225,7 @@
                         <div class="project-modal__buttons">
                             <a id="projectModalGithub" class="home-btn" href="#" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
                             <a id="projectModalDemo" class="home-btn" href="#" target="_blank" rel="noopener noreferrer">Åpne demo <span aria-hidden="true">↗</span></a>
+                            <a id="projectModalInfo" class="home-btn" href="#" target="_blank" rel="noopener noreferrer">Les mer <span aria-hidden="true">↗</span></a>
                             <button class="home-btn home-btn-primary project-modal__ok" type="button">OK</button>
                         </div>
                     </div>
@@ -198,6 +234,6 @@
         </section>
     </main>
 
-    <script src="script.js?v=43"></script>
+    <script src="script.js?v=48"></script>
 </body>
 </html>

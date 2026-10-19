@@ -52,6 +52,8 @@ function renderProjectRow(entry) {
     const open = createEl('button', 'project-row__open', title);
     open.type = 'button';
     text.append(open);
+    // Praksisprosjekter får et eget merke ved siden av navnet
+    if (/praksis/i.test(entry.dataset.meta || '')) text.append(createEl('span', 'project-row__chip', 'Praksis'));
     // Kort beskrivelse i listen; faller tilbake på hele sammendraget
     if (short || summary) text.append(createEl('span', 'project-row__summary', short || summary));
     name.append(icon, text);
@@ -151,6 +153,8 @@ function initProfileModal() {
     const image = document.getElementById('profileModalImage');
     const title = document.getElementById('profileModalTitle');
     const bio = document.getElementById('profileModalBio');
+    const stackWrap = document.getElementById('profileModalStackWrap');
+    const stackList = document.getElementById('profileModalStack');
     const closeButton = modal.querySelector('.profile-modal__close');
     const backdrop = modal.querySelector('[data-close-modal="true"]');
     const githubLink = modal.querySelector('.social-btn--github');
@@ -193,6 +197,9 @@ function initProfileModal() {
             title.append(' – ', createEl('span', 'profile-modal__role', card.dataset.role));
         }
         bio.textContent = card.dataset.bio;
+        const stack = splitList(card.dataset.stack);
+        renderTagList(stackList, stack);
+        stackWrap.hidden = !stack.length;
         const links = profileLinks[card.dataset.name] || {};
         githubLink.href = links.github || '#';
         githubLink.hidden = !links.github;
@@ -249,6 +256,7 @@ function initProjectModal() {
     const tagList = document.getElementById('projectModalTags');
     const githubLink = document.getElementById('projectModalGithub');
     const demoLink = document.getElementById('projectModalDemo');
+    const infoLink = document.getElementById('projectModalInfo');
     const closeButton = modal.querySelector('.project-modal__close');
     const okButton = modal.querySelector('.project-modal__ok');
     const backdrop = modal.querySelector('[data-close-project-modal="true"]');
@@ -326,6 +334,8 @@ function initProjectModal() {
         githubLink.hidden = !card.dataset.github;
         demoLink.href = card.dataset.demo || '#';
         demoLink.hidden = !card.dataset.demo;
+        infoLink.href = card.dataset.info || '#';
+        infoLink.hidden = !card.dataset.info;
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
